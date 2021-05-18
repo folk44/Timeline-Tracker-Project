@@ -1,6 +1,7 @@
 #ifndef class_h
 #define class_h
 using namespace std;
+
 class Address{
   private:
   string H_Number;
@@ -10,12 +11,21 @@ class Address{
   public:
   Address(string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
   ~Address();
+  void show_node(){
+      cout <<H_Number<<" "<<sub_district<<" "<<district<<" "<<province<<endl;
+    }
+   virtual void changeAddress(string HNo,string x ,string y , string z){
+      H_Number = HNo;
+      sub_district = x;
+      district =y;
+      province = z;
+      cout << "Change Successfully"<<endl;
+      sleep(2);}
 };
 Address::Address(string H_Num,string prov,string dis,string sub_dis):H_Number(H_Num),province(prov),district(dis),sub_district(sub_dis){ 
 }
 Address::~Address(){
-  
-};
+  }
 
 class Personinformation:public Address{
   private :
@@ -23,13 +33,21 @@ class Personinformation:public Address{
   string gender;
   string blood_type;
   string per_disease;
-  int phone_number;
+  string phone_number;
   int dd,mm,yy;
   public :
-  Personinformation(string,int ,int ,int ,int,string = "Unknow",string = "Unknow",string = "---",string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
+  Personinformation(string,int ,int ,int ,string,string = "Unknow",string = "Unknow",string = "---",string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
   ~Personinformation();
+  void show_perInfo();
+  void changeName(string );
+  void changeGender(string );
+  void changeBloodtype(string );
+  void changeDoB();
+  void changeUdis(string);
+  void changePhoneNo(string);
+  void changeAddress(string,string,string,string);
 };
-Personinformation :: Personinformation(string n,int d,int m,int y,int phone,string gen,string bt,string pd,string H_Num,string prov,string dis,string sub_dis):Address (H_Num,prov,dis,sub_dis){
+Personinformation :: Personinformation(string n,int d,int m,int y,string phone,string gen,string bt,string pd,string H_Num,string prov,string dis,string sub_dis):Address (H_Num,prov,dis,sub_dis){
   name = n; 
   gender = gen; 
   blood_type = bt; 
@@ -38,25 +56,95 @@ Personinformation :: Personinformation(string n,int d,int m,int y,int phone,stri
   dd=d ; mm=m ; yy=y;
   cout << "Personal Information Constructer" <<endl;
 }
+  void Personinformation :: show_perInfo(){
+    cout << "Name : " << name <<endl;
+    cout << "Gender : " << gender <<"\t Blood Type : "<<blood_type<<endl;
+    cout << "Date of birth : " << dd <<"/" << mm << "/"<< yy<< "   Age : " <<endl;
+    cout << "Underlying disease : "<< per_disease <<endl;
+    cout << "Phone Number : " << phone_number<<endl;
+    Address :: show_node();
+  }
+  void Personinformation :: changeName(string x){
+    cout << "Name " << name << "  --> "<<x << endl;
+    name =x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeGender(string x){
+    cout << "Gender " << gender << "  --> "<<x << endl;
+    gender = x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeBloodtype(string x){
+    cout << "Blood Type " << blood_type << "  --> " << x << endl;
+    blood_type = x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeDoB(){
+    int x,y,z;
+    cout << "Date of birth " << dd <<"/" << mm << "/"<< yy  << "  --> ";
+    cin >> x>>y>>z;
+    dd=x; mm=y; yy=z;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeUdis(string x){
+    cout << "Underlying disease " << per_disease << "  --> " << x << endl;
+    per_disease = x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changePhoneNo(string x){
+    cout << "PhoneNo. " << phone_number << "  --> " << x << endl;
+    phone_number = x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeAddress(string hn,string x,string y,string z){
+      Address::changeAddress(hn,x,y,z); 
+  }
+
+
+
+
+
 
 class timeline:public Address,public NODE{
   private:
-    int timein;
-    int timeout;
+    int timein[3];
+    int timeout[3];
     int D,M,Y;
     string storename;
     string note;
 
   public:
-    timeline(int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
+    timeline(int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
     ~timeline();
- 
-  
+    void show_node(){
+      cout << "Date " << D <<"/"<< M <<"/"<< Y<<" Time "<<timein << " - "<<timeout << " ==> "; 
+      Address ::show_node();
+    }
+    
+    int returnD(){return D;}
+    int returnM(){return M;}
+    int returnY(){return Y;}
+    string returnStname(){return storename;}
+    void show_St(){
+      cout << "Store name : "<< storename << endl;
+    }
 };
 
-timeline::timeline(int ti,int to,int x,int o,int z,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){
-  timein=ti;
-  timeout=to;
+timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,int z,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){
+  timein[0]=tih;
+  timein[1]=tim;
+  timein[2]=tis;
+
+  timeout[0]=toh;
+  timeout[1]=tom;
+  timeout[2]=tos;
+
   D = x;
   M = o;
   Y = z;
@@ -66,5 +154,6 @@ timeline::timeline(int ti,int to,int x,int o,int z,string sn,string no,string H_
 timeline::~timeline(){
   cout<<"Delete Timeline"<<endl;
 }
+
 
 #endif

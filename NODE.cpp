@@ -2,6 +2,7 @@
 using namespace std;
 #include"NODE.h"
 
+
 NODE::NODE(){
     //  data=x;
       next=NULL;
@@ -23,4 +24,7 @@ void NODE::insert(NODE*& x){
      }
 void NODE::deleteN(NODE*& t){
   delete t;
+}
+void NODE:: show_St(){
+  cout<<"St";
 }
