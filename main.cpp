@@ -8,8 +8,7 @@
 #include <ctime>
 #include"time.h"
 using namespace std;
-time_t now = time(0);
-tm *ltm = localtime(&now);
+
 #include"NODE.h"
 #include "class.h"
 #include"LL.h"
@@ -50,7 +49,7 @@ int main() {
   switch (ch)
   {
     case 1:{ch=Add_Place(&A);};break;
-    case 2:{A.searchStname();ch=1;};break;
+    case 2:{A.show_all();sleep(2);;ch=1;};break;
     case 3:{Personal(P);ch=1;}break;
     case 0:{ch=0;
       cout<<"Exit Program"<<endl;
@@ -235,6 +234,8 @@ int Add_Place(LL *A){
   cin>>sub_dis;
   cout<<"Input note : "<<endl;
   cin>>note;
+  time_t now = time(0);
+  tm *ltm = localtime(&now);
   cout<<"Date is "<<ltm->tm_mday<<"/"<<1 + ltm->tm_mon<<"/"<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
 	cin>>check1;
   check1=toupper(check1);
@@ -246,12 +247,12 @@ int Add_Place(LL *A){
         Y=1900 + ltm->tm_year;
       };break;
       case 'N':{ch=1;
-      cout<<"Input date (dd/mm/yyyy): ";
-      cin>>D;
-      cin.ignore();
-      cin>>M;
-      cin.ignore();
-      cin>>Y;
+        cout<<"Input date (dd/mm/yyyy): ";
+        cin>>D;
+        cin.ignore();
+        cin>>M;
+        cin.ignore();
+        cin>>Y;
       };break;
       default:{ch=0;
       cout<<"Invalid choice!!"<<endl<<"Please input again...";
@@ -296,7 +297,9 @@ int Add_Place(LL *A){
   
   cout << "Press Enter to Check out...";
   cin.ignore();
-  cout << "Time out is "<<5+ltm->tm_hour << ":" << 30+ltm->tm_min << ":"<<ltm->tm_sec <<" (Y/N)"<<endl;
+  time_t now1 = time(0);
+  tm *ltm1 = localtime(&now1);
+  cout << "Time out is "<<5+ltm1->tm_hour << ":" << 30+ltm1->tm_min << ":"<<ltm1->tm_sec <<" (Y/N)"<<endl;
   cin>>check3;
   check3=toupper(check3);
   do{

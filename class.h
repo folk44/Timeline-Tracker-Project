@@ -123,17 +123,22 @@ class timeline:public Address,public NODE{
     timeline(int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
     ~timeline();
     void show_node(){
-      cout << "Date " << D <<"/"<< M <<"/"<< Y<<" Time "<<timein << " - "<<timeout << " ==> "; 
+      cout << "Date " << D <<"/"<< M <<"/"<< Y<<" Time "<<timein[0]<<":"<<timein[1]<<":"<<timein[2] << " - "<<timeout[0]<<":"<<timeout[1]<<":"<<timeout[2] << " ==> "; 
       Address ::show_node();
     }
     
     int returnD(){return D;}
     int returnM(){return M;}
     int returnY(){return Y;}
+    int* returntime(){return timein;}
+
+
     string returnStname(){return storename;}
     void show_St(){
       cout << "Store name : "<< storename << endl;
     }
+
+    
 };
 
 timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,int z,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){

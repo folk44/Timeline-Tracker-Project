@@ -13,4 +13,5 @@ public:
         virtual int returnY(){return 0;}
         virtual string returnStname(){return "ff";}
         virtual void show_St();
+        virtual int* returntime(){return 0;}
 };
