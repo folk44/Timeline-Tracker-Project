@@ -1,2 +1,2 @@
-target: main.cpp LL.cpp NODE.cpp
-	g++ main.cpp LL.cpp NODE.cpp -o test
+target: NODE.cpp LL.cpp main.cpp
+	g++ NODE.cpp LL.cpp main.cpp -o test

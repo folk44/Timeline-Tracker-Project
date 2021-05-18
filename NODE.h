@@ -1,8 +1,9 @@
+
 class NODE{
       NODE* next;
 public:
         NODE();
-        virtual void show_node();
+        void show_node();
         void insert(NODE*&);
         void deleteN(NODE*&);
         NODE* move_next();

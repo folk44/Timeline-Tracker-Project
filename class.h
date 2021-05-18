@@ -1,6 +1,6 @@
 #ifndef class_h
 #define class_h
-
+using namespace std;
 class Address{
   private:
   string H_Number;
@@ -48,12 +48,9 @@ class timeline:public Address,public NODE{
     string note;
 
   public:
-    timeline(int,int,int,int,int,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
+    timeline(int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
     ~timeline();
-    virtual void show_node();
-    void insert(timeline*&);
-    void deleteN(timeline*&);
-    timeline* move_next();
+ 
   
 };
 
@@ -65,6 +62,9 @@ timeline::timeline(int ti,int to,int x,int o,int z,string sn,string no,string H_
   Y = z;
   storename= sn;
   note = no;
-
 }
+timeline::~timeline(){
+  cout<<"Delete Timeline"<<endl;
+}
+
 #endif
