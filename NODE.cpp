@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+#include"NODE.h"
+
+NODE::NODE(){
+    //  data=x;
+      next=NULL;
+      cout<<"adding"<<endl;
+}
+NODE:: ~NODE(){
+      cout<<"Node"<<" is being deleted"<<endl;
+}
+
+NODE* NODE::move_next(){
+      return next;
+}
+void  NODE:: show_node(){
+         cout<<"Node data:"<<endl;
+ }
+void NODE::insert(NODE*& x){
+     x->next=this;
+
+     }
+void NODE::deleteN(NODE*& t){
+  delete t;
+}
