@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <ctime>
 #include <limits>
+#include <sstream>
 #include"time.h"
 using namespace std;
 
@@ -20,6 +21,8 @@ using namespace std;
 int Add_Place(LL *);
 void Personal(Personinformation*&);
 void Showmenu(LL *);
+int StrToInt(string );
+int checkDate(int ,int ,int );
 
 string sTouper(string x){
   int i;
@@ -47,13 +50,13 @@ int main() {
   cout<<"3. Personal info"<<endl;
   cout<<"0. Exit"<<endl;
   cout<<"Please input your choice ...."<<endl;
-  try{
   cin>>ch;
+  try{
     if (ch!="1" && ch!="2" && ch!="3" && ch!="0")
       throw inchoice;
    switch (ch[0])
     {
-     //case '1':{Add_Place(&A);}break;
+     case '1':{Add_Place(&A);}break;
      case '2':{Showmenu(&A);}break;
      case '3':{Personal(P);}break;
      case '0':{
@@ -110,19 +113,19 @@ void Showmenu(LL *A){
 }
 void Personal(Personinformation *&P){
   if (P == NULL){
-    char c;
-    string name,gen,bt,pd,H_Num,prov,dis,sub_dis,phone;
-    int d,m,y;
+    string c;
+    string name,gen,bt,pd,H_Num,prov,dis,sub_dis,phone,D,M,Y;
+    int d,m,y,x=0;
     do{
     system("clear");
      cout << " Identity Not found " <<endl;
      cout << "Do u want to register now ? (Y/N)"<<endl;
     try{
      cin >> c;
-     c=toupper(c);
-      if (c!='Y' && c!='N')
-        throw "Invalid choice!! \n Please input again...";
-     if (c == 'Y'){
+     c[0]=toupper(c[0]);
+      if (c!="Y" && c!="N")
+        throw inchoice;
+     if (c == "Y"){
         cout << ">> Enter your Infomation <<"<<endl;
         cout << "Name : " ;
         cin >> name;
@@ -133,8 +136,18 @@ void Personal(Personinformation *&P){
         cout << "Blood Type : ";
         cin >> bt;
         bt = sTouper(bt);
-        cout << "Date of birth : " ;
-        cin >> d >> m >> y;
+        cout << "Date of birth (dd/mm/yyyy): " ;
+          do{
+              cin >> D ;
+              cin.ignore();
+              cin>> M;
+              cin.ignore(); 
+              cin>> Y;
+              d=StrToInt(D);
+              m=StrToInt(M);
+              y=StrToInt(Y);
+              x = checkDate(d,m,y);
+          }while(x!=1);
         cout << "Underlying disease : ";
         cin >> pd;
         pd = sTouper(pd);
@@ -152,31 +165,31 @@ void Personal(Personinformation *&P){
         cin>>sub_dis;
         sub_dis = sTouper(sub_dis);
         P=new Personinformation(name, d, m, y, phone, gen, bt, pd,H_Num,prov,dis,sub_dis);
+        c="N";
        }
       }
       catch(exception& e){
          cout<<e.what()<<endl;
-       }
-      catch(const char *error){
-        cerr<<error;
-        cout<<endl;
-        cin.clear();// fflush(stdin)
+         cin.clear();// fflush(stdin)
         cin.ignore(100,'\n');
-        
-      } 
-     }while(c != 'N');
+        sleep(1);
+       }
+     }while(c != "N");
      cout << "Back to main menu" <<endl; sleep(2);
   }
   else {
-    char c;
-    int chck;
+    string c;
+    string chck;
     do{
     system("clear");
     P->show_perInfo();
     cout << "1)Edit information "<<endl;
     cout << "2)Return to menu"<<endl;
+    try{
     cin>>c;
-    if (c == '1'){
+    if (c!="1" && c!="2")
+      throw inchoice;
+    if (c[0] == '1'){
        do{
         system("clear");
       string hn,x,y,z;
@@ -190,27 +203,29 @@ void Personal(Personinformation *&P){
       cout << "7) Address"<<endl;
       cout << "0) Exit"<<endl;
    //  try{
-      chck=0;
+      //chck[0]=0;
       cin >> chck;
-      switch (chck){
-        case 1 : {cout << "Change Name to "; cin>>x; 
+      if(chck!="2"&&chck!="3"&&chck!="4"&&chck!="5"&&chck!="6"&&chck!="7"&&chck!="0"&&chck!="1")
+        throw inchoice;
+      switch (chck[0]){
+        case '1' : {cout << "Change Name to "; cin>>x; 
                   x = sTouper(x);P->changeName(x) ;}
                   break;
-        case 2 : {cout << "Change Gender to "; cin>>x; 
+        case '2' : {cout << "Change Gender to "; cin>>x; 
                   x = sTouper(x);P->changeGender(x) ;}
                   break;
-        case 3 : {cout << "Change Blood type to "; cin>>x; 
+        case '3' : {cout << "Change Blood type to "; cin>>x; 
                   x = sTouper(x);P->changeBloodtype(x) ;}
                   break;
-        case 4 :  P->changeDoB() ;
+        case '4' :  P->changeDoB() ;
                   break;
-        case 5 : {cout << "Change Underlying disease to "; cin>>x; 
+        case '5' : {cout << "Change Underlying disease to "; cin>>x; 
                   x = sTouper(x);P->changeUdis(x) ;}
                   break;
-        case 6 : {cout << "Change Phone Number to "; cin>>x; 
+        case '6' : {cout << "Change Phone Number to "; cin>>x; 
                   x = sTouper(x);P->changePhoneNo(x) ;}
                   break;
-        case 7 : {
+        case '7' : {
                   cout<<"Input house number : ";
                   cin>>hn;
                   hn = sTouper(hn);
@@ -225,17 +240,24 @@ void Personal(Personinformation *&P){
                   x = sTouper(x);
                   P->changeAddress(hn,x,y,z) ;}
                   break;
-        case 0 : break;
+        case '0' : break;
         default:{};
       }
      //}
-      } while(chck !=0);
+      } while(chck[0] !='0');
     }
-  }while (c != 0);
+    }
+    catch(exception& e){
+         cout<<e.what()<<endl;
+         cin.clear();// fflush(stdin)
+         cin.ignore(100,'\n');
+         sleep(2);
+       }
+  }while (c[0] != '2');
  }
 }
 
-/*
+
 int Add_Place(LL *A){
   NODE *t;
   int ti[3],to[3], D, M, Y,Do,Mo,Yo;
@@ -246,37 +268,25 @@ int Add_Place(LL *A){
   
   cout<<"Timeline Tracker"<<endl<<endl;
   user_input("Input house number : " ,&H_Num);
-  cout<<"Input store name : "<<endl;
-  cin>>s_name;
-  cout<<"Input province : "<<endl;
-  cin>>prov;
-  cout<<"Input district : "<<endl;
-  cin>>dis;
-  cout<<"Input sub-distict : "<<endl;
-  cin>>sub_dis;
-  cout<<"Input note : "<<endl;
-  cin>>note;
+  user_input("Input store name : " ,&s_name);
+  user_input("Input province : " ,&prov);
+  user_input("Input district : " ,&dis);
+  user_input("Input sub-distict : " ,&sub_dis);
+  user_input("Input note : " ,&note);
+
   time_t now = time(0);
   tm *ltm = localtime(&now);
-  int HT;
-  if(7+ltm->tm_hour>24) HT=7+ltm->tm_hour-24;
-  else HT=7+ltm->tm_hour;
   cout<<"Date is "<<ltm->tm_mday<<"/"<<1 + ltm->tm_mon<<"/"<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
 	do{
-  cin.clear();
-  cin.ignore(100,'\n');
   cin>>check1;
   check1=sTouper(check1);
-  if(check1.compare("Y")==0){
-
-  }
-
-    switch(check1){
+  try{
+  if (check1!="Y" && check1!="N") throw inchoice;
+    switch (check1[0]){
       case 'Y':{ch=1;
         D=ltm->tm_mday;
         M=1 + ltm->tm_mon;
         Y=1900 + ltm->tm_year;
-        
       };break;
       case 'N':{ch=1;
         cout<<"Input date (dd/mm/yyyy): ";
@@ -286,9 +296,11 @@ int Add_Place(LL *A){
         cin.ignore();
         cin>>Y;
       };break;
-      default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
-      }
+    }
+  }
+    catch(exception& e){
+      cout<<e.what()<<endl;
+      sleep(1);
     }
     cin.clear();
     cin.ignore(100,'\n');
@@ -296,8 +308,10 @@ int Add_Place(LL *A){
   cout << "Time in is "<<HT<< ":" << ltm->tm_min << ":"<<ltm->tm_sec <<" (Y/N)"<<endl;
   do{
   cin>>check2;
-  check2=toupper(check2);
-    switch(check2){
+  check2=sTouper(check2);
+  try{
+    if (check2!="Y" && check2!="N") throw inchoice;
+    switch(check2[0]){
       case 'Y':{ch=1;
         ti[0]=HT;
         ti[1]=ltm->tm_min;
@@ -311,10 +325,14 @@ int Add_Place(LL *A){
       cin.ignore();
       cin>>ti[2];
       };break;
-      default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
-      }
     }
+  }
+  catch(exception& e){
+      cout<<e.what()<<endl;
+      sleep(1);
+    }
+    cin.clear();
+    cin.ignore(100,'\n');
   }while(ch==0);
 
 
@@ -336,15 +354,17 @@ int Add_Place(LL *A){
   tm *ltm1 = localtime(&now1);
   if(7+ltm1->tm_hour>24) HT=7+ltm1->tm_hour-24;
   else HT=7+ltm1->tm_hour;
-  cout<<"Date is "<<Do<<"/"<<Mo<<"/"<<Yo<<" (Y/N)"<<endl;
+  cout<<"Date is "<<D<<"/"<<M<<"/"<<Y<<" (Y/N)"<<endl;
 	do{
   cin>>check3;
-  check3=toupper(check3);
-    switch(check3){
+  check3=sTouper(check3);
+  try{
+  if (check3!="Y" && check3!="N") throw inchoice;
+    switch(check3[0]){
       case 'Y':{ch=1;
-        Do=ltm1->tm_mday;
-        Mo=1 + ltm1->tm_mon;
-        Yo=1900 + ltm1->tm_year;
+        Do=D;
+        Mo=M;
+        Yo=Y;
       };break;
       case 'N':{ch=1;
         cout<<"Input date (dd/mm/yyyy): ";
@@ -354,16 +374,23 @@ int Add_Place(LL *A){
         cin.ignore();
         cin>>Y;
       };break;
-      default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
       }
     }
+    catch(exception& e){
+      cout<<e.what()<<endl;
+      sleep(1);
+    }
+    cin.clear();
+    cin.ignore(100,'\n');
   }while(ch==0);
+
   cout << "Time out is "<<HT<< ":" << ltm1->tm_min << ":"<<ltm1->tm_sec <<" (Y/N)"<<endl;
   do{
   cin>>check4;
-  check4=toupper(check4);
-    switch(check4){
+  check4=sTouper(check4);
+  try{
+  if (check4!="Y" && check4!="N") throw inchoice;
+    switch(check4[0]){
       case 'Y':{ch=1;
         to[0]=HT;
         to[1]=ltm1->tm_min;
@@ -377,21 +404,51 @@ int Add_Place(LL *A){
       cin.ignore();
       cin>>ti[2];
       };break;
-      default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
-      }
     }
+  }
+    catch(exception& e){
+      cout<<e.what()<<endl;
+      sleep(1);
+    }
+    cin.clear();
+    cin.ignore(100,'\n');
   }while(ch==0);
 
-  t=new timeline(ti[0],ti[1],ti[2],to[0],to[1],to[2],D,M,Y,s_name,note,H_Num,prov,dis,sub_dis);
+  t=new timeline(ti[0],ti[1],ti[2],to[0],to[1],to[2],D,M,Y,Do,Mo,Yo,s_name,note,H_Num,prov,dis,sub_dis);
   A->add_node(t);
 
   cin.clear();
-  cin.ignore(100,'\n');
+  cin.ignore(1000,'\n');
 
   cout<<"Checked out"<<endl;
   cout << "Press Enter to back to menu..."<<endl;
   cin.ignore();
 return 1;
 }
-*/
+
+int StrToInt(string x){
+  int y;
+  stringstream geek(x);
+  geek >> y;
+  return y;
+}
+
+int checkDate(int d,int m,int y){
+  int x;
+  try{
+    if (d==0||m==0||y==0 || m > 12 || d > 31) throw indate;
+    else if (m==2 && d > 29 ) throw indate;
+    else if (d==31){
+      if(m==4 ||m==6 ||m==9 ||m==11 ) throw indate;
+     }
+    x=1;
+  }
+  catch(exception& e){
+      cout<<e.what()<<endl;
+      cin.clear();// fflush(stdin)
+      cin.ignore(100,'\n');
+       sleep(1);
+      x=0;
+  }
+  return (x);
+}

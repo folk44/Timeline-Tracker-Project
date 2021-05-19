@@ -21,6 +21,7 @@ class In_Time : public exception{
 }intime;
 
 
+
 class Address{
   private:
   string H_Number;
@@ -134,12 +135,12 @@ class timeline:public Address,public NODE{
   private:
     int timein[3];
     int timeout[3];
-    int D,M,Y;
+    int D,M,Y,Do,Mo,Yo;
     string storename;
     string note;
 
   public:
-    timeline(int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
+    timeline(int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
     ~timeline();
     void show_node(){
       cout << "Date " << D <<"/"<< M <<"/"<< Y<<" Time "<<timein[0]<<":"<<timein[1]<<":"<<timein[2] << " - "<<timeout[0]<<":"<<timeout[1]<<":"<<timeout[2] << " ==> "; 
@@ -160,7 +161,7 @@ class timeline:public Address,public NODE{
     
 };
 
-timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,int z,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){
+timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,int z,int a,int b, int c,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){
   timein[0]=tih;
   timein[1]=tim;
   timein[2]=tis;
@@ -172,6 +173,9 @@ timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,i
   D = x;
   M = o;
   Y = z;
+  Do=a;
+  Mo=b;
+  Yo=c;
   storename= sn;
   note = no;
 }

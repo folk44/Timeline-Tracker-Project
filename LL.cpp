@@ -3,7 +3,6 @@ using namespace std;
 #include"NODE.h"
 #include "LL.h"
 #include <ctime>
-#include<exception>
 
 LL::LL(){
        hol=NULL;
@@ -21,23 +20,16 @@ LL::~LL(){
 }
 
 void LL::show_all(){
-  try{
      NODE* t=hol;
      if (t!=NULL){
      int i;
      for(i=0;i<size;i++){
              t->show_node();
 	      t=t->move_next();    
+      }
      }
-     }
-     else throw emptyT;
+     else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
   }
-  catch(exception& e){
-    cout<<e.what()<<endl;
-    cin.clear();// fflush(stdin)
-    cin.ignore(100,'\n');
-  }
-}
 
 void LL::add_node(NODE *&A){
         if(hol!=NULL){
@@ -124,6 +116,7 @@ void LL::add_node(NODE *&A){
 
 void LL::search(){
   NODE * t=hol;
+  if(t!=NULL){
   int i=0,d,m,y;
   cout<<"Enter DD MM YY : "<<endl;
   cin>>d>>m>>y;
@@ -136,14 +129,15 @@ void LL::search(){
     }
     t=t->move_next();
   }
-}
+  }else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
+ }
 
 void LL::searchStname(){
   NODE * t=hol;
   NODE * check=hol;
   int i,d,j,n=1,c;
   string st;
- // if (t!=NULL){
+  if (t!=NULL){
   for(i=0;i<size;i++){
     c=0;
     if(i != 0){
@@ -171,17 +165,13 @@ void LL::searchStname(){
   for(i=0;i<d-1;i++) t=t->move_next();
   st=t->returnStname();
   t=hol;
-  
   while(t!=NULL){
     if(st==t->returnStname()){
       t->show_node();
     }
     t=t->move_next();
   }
-  //}
-  /*else{
-      cout<<"Timeline is Empty"<<endl;
-  }*/
+  }else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
 }
 void LL::rw_node(){
     NODE *t=NULL,*pre=hol,*pos=NULL;

@@ -14,8 +14,3 @@ public:
       
 };
 
-class LL_Empty : public exception{
-  virtual const char* what () const throw(){
-    return "Timeline is empty!! \nPlease input timeline first...";
-  }
-}emptyT;
