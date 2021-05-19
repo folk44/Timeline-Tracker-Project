@@ -2,6 +2,8 @@
 using namespace std;
 #include"NODE.h"
 #include "LL.h"
+#include <ctime>
+#include<exception>
 
 LL::LL(){
        hol=NULL;
@@ -19,13 +21,22 @@ LL::~LL(){
 }
 
 void LL::show_all(){
+  try{
      NODE* t=hol;
+     if (t!=NULL){
      int i;
      for(i=0;i<size;i++){
              t->show_node();
 	      t=t->move_next();    
      }
-
+     }
+     else throw emptyT;
+  }
+  catch(exception& e){
+    cout<<e.what()<<endl;
+    cin.clear();// fflush(stdin)
+    cin.ignore(100,'\n');
+  }
 }
 
 void LL::add_node(NODE *&A){
@@ -98,9 +109,7 @@ void LL::add_node(NODE *&A){
             }
             PP=AP;
             AP=AP->move_next();
-            //cout <<"Vom"<<endl;
             if(AP==NULL&&check!=1){
-              cout << "SAWADEE"<<endl;
               A->insert(PP);
               check=1;
             }
@@ -112,12 +121,6 @@ void LL::add_node(NODE *&A){
         }
         size++;
 }
-/*void LL::add_node(NODE *&A){
-
-          hol->insert(A);
-          hol=A;
-       size++;
- }*/
 
 void LL::search(){
   NODE * t=hol;
@@ -137,21 +140,35 @@ void LL::search(){
 
 void LL::searchStname(){
   NODE * t=hol;
-  int i,d;
+  NODE * check=hol;
+  int i,d,j,n=1,c;
   string st;
-  
+ // if (t!=NULL){
   for(i=0;i<size;i++){
-       cout<<i+1<<") ";
-             t->show_St();
-	      t=t->move_next();    
-     }
-  while(d>0&&d<=i+1){
+    c=0;
+    if(i != 0){
+      st=t->returnStname();
+      for (j=0;j<i;j++){
+          if(st==check->returnStname()){
+            c=1; break;
+          }
+          check->move_next();
+        }
+      }
+    if(c==0){
+        cout<<n<<") ";
+        t->show_St();
+        n++;
+    }
+	    t=t->move_next();  
+     }cout <<"Done"<<endl;
+  do{
   cout<<"Enter NO. : "<<endl;
   cin>>d;
-  }
+  }while(d<0||d>i);
   t=hol;
 
-  for(i=0;i<d;i++) t=t->move_next();
+  for(i=0;i<d-1;i++) t=t->move_next();
   st=t->returnStname();
   t=hol;
   
@@ -161,4 +178,38 @@ void LL::searchStname(){
     }
     t=t->move_next();
   }
+  //}
+  /*else{
+      cout<<"Timeline is Empty"<<endl;
+  }*/
 }
+void LL::rw_node(){
+    NODE *t=NULL,*pre=hol,*pos=NULL;
+    int i;
+    int d[2],diff;
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    while(pre){
+        d[0]=pre->returnM();
+        d[1]=pre->returnY();
+        diff=((ltm->tm_year*12)+ltm->tm_mon)-((pre->returnY()*12)+pre->returnM());
+      if(diff>3){
+        if(pos!=NULL){
+          t=pre;
+          pre=pre->move_next();
+          pre->insert(pos);
+        }
+        else{
+          t=pre;
+          pre=pre->move_next();
+          hol=pre;
+        }
+        delete t;
+        size--;
+      }
+      else{
+        pos=pre;
+        pre=pre->move_next();
+      }
+    }
+}  

@@ -2,6 +2,25 @@
 #define class_h
 using namespace std;
 
+class In_choice : public exception{
+  virtual const char* what () const throw(){
+    return "Invalid choice!! \nPlease input again...";
+  }
+}inchoice;
+
+class In_Date : public exception{
+  virtual const char* what () const throw(){
+    return "Invalid Date!! \nPlease input again...";
+  }
+}indate;
+
+class In_Time : public exception{
+  virtual const char* what () const throw(){
+    return "Invalid Time!! \nPlease input again...";
+  }
+}intime;
+
+
 class Address{
   private:
   string H_Number;

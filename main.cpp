@@ -6,19 +6,20 @@
 #include<string>
 #include <ctype.h>
 #include <ctime>
+#include <limits>
 #include"time.h"
 using namespace std;
 
 #include"NODE.h"
 #include "class.h"
 #include"LL.h"
-#include"time.h"
 #include <cstring>
  
 
 
 int Add_Place(LL *);
 void Personal(Personinformation*&);
+void Showmenu(LL *);
 
 string sTouper(string x){
   int i;
@@ -35,86 +36,92 @@ void user_input(string text , string *input){
 int main() {
   LL A;
   Personinformation *P=NULL;
-  int ch;
+  //int ch;
+  string ch;
   do{
+  A.rw_node();
   system("clear");
   cout<<"Timeline Tracker"<<endl<<endl;
   cout<<"1. Add place"<<endl;
-  cout<<"2. Edit place"<<endl;
+  cout<<"2. Show place"<<endl;
   cout<<"3. Personal info"<<endl;
   cout<<"0. Exit"<<endl;
   cout<<"Please input your choice ...."<<endl;
-  //do{
+  try{
   cin>>ch;
-  switch (ch)
-  {
-    case 1:{ch=Add_Place(&A);};break;
-    case 2:{A.show_all();sleep(2);;ch=1;};break;
-    case 3:{Personal(P);ch=1;}break;
-    case 0:{ch=0;
-      cout<<"Exit Program"<<endl;
-      sleep(5);};break;
-    default:{cout<<"Invalid choice!!"<<endl<<"Please input again..."; ch=0;};
+    if (ch!="1" && ch!="2" && ch!="3" && ch!="0")
+      throw inchoice;
+   switch (ch[0])
+    {
+     //case '1':{Add_Place(&A);}break;
+     case '2':{Showmenu(&A);}break;
+     case '3':{Personal(P);}break;
+     case '0':{
+       cout<<"Exit Program"<<endl;
+       sleep(5);};break;
+     default:{};
+    }
   }
-  //}while(ch!=0);
-}while(ch!=0);
-
-
-  /*LL A;
-  NODE *t;
-  Personinformation *P=NULL;
-  t=new timeline(5,4,3,2,1);
-  A.add_node(t);
-  t=new timeline(10,9,8,7,6);
-  A.add_node(t);
-  int ch;
-  do{
-  system("clear");
-  ch=0;
-  cout<<"Timeline Tracker"<<endl<<endl;
-  cout<<"1. Add place"<<endl;
-  cout<<"2. Edit place"<<endl;
-  cout<<"3. Personal info"<<endl;
-  cout<<"0. Exit"<<endl;
-  cout<<"Please input your choice ...."<<endl;
-  cin>>ch;
-  switch (ch)
-  {
-    case 1:Add_Place();break;
-    case 2:A.search();break;
-    case 3:Personal(P) ;break;
-    case 0:{
-      cout<<"Exit Program"<<endl;
-      sleep(5);};break;
-    default:{};
+  catch(exception& e){
+    cout<<e.what()<<endl;
+    cin.clear();// fflush(stdin)
+    cin.ignore(100,'\n');
+    sleep(1);
   }
-  }while(ch!=0);
-  cout <<endl;
-  
-  LL A;
-  NODE *t;
-  
-  t=new timeline(1,2,3,4,5);
-  A.add_node(t);
-  t=new timeline(5,4,3,2,1);
-  A.add_node(t);
-  t=new timeline(10,9,8,7,6);
-  A.add_node(t);
-  A.search();
-  A.searchStname();*/
+ /* catch(const char *error){
+    cerr<<error;
+    cout<<endl;
+    cin.clear();// fflush(stdin)
+    cin.ignore(100,'\n');
+    sleep(1);
+   }*/
+}while(ch!="0");
 return 0;
 }
-
+void Showmenu(LL *A){
+  string c;
+  string temp;
+  do{
+  system("clear");
+  cout<<"Timeline Tracker"<<endl<<endl;
+  cout<<"1. Show All Timeline" << endl;
+  cout<<"2. Search Date "<<endl;
+  cout<<"3. Search Store Name "<<endl;
+  cout<<"0. Back to main menu"<<endl;
+  cout<<"Please input your choice ...."<<endl;
+  try{
+    cin >> c;
+    if (c!="1" && c!="2" && c!="3" && c!="0")
+      throw inchoice;
+     switch (c[0]){
+        case '1':A->show_all();cin.ignore();cin.ignore();break;
+        case '2':A->search();cin.ignore();cin.ignore();break;
+        case '3':A->searchStname();cin.ignore();cin.ignore();break;
+        case '0':cout << "Back to main menu"<<endl;sleep(2);break;
+    }
+  }
+  catch(exception& e){
+    cout<<e.what()<<endl;
+    cin.clear();// fflush(stdin)
+    cin.ignore(100,'\n');
+    sleep(1);
+  }
+  }while(c!="0");
+}
 void Personal(Personinformation *&P){
   if (P == NULL){
+    char c;
+    string name,gen,bt,pd,H_Num,prov,dis,sub_dis,phone;
+    int d,m,y;
+    do{
     system("clear");
      cout << " Identity Not found " <<endl;
      cout << "Do u want to register now ? (Y/N)"<<endl;
-     char c;
-     string name,gen,bt,pd,H_Num,prov,dis,sub_dis,phone;
-     int d,m,y;
+    try{
      cin >> c;
      c=toupper(c);
+      if (c!='Y' && c!='N')
+        throw "Invalid choice!! \n Please input again...";
      if (c == 'Y'){
         cout << ">> Enter your Infomation <<"<<endl;
         cout << "Name : " ;
@@ -145,7 +152,20 @@ void Personal(Personinformation *&P){
         cin>>sub_dis;
         sub_dis = sTouper(sub_dis);
         P=new Personinformation(name, d, m, y, phone, gen, bt, pd,H_Num,prov,dis,sub_dis);
-     }
+       }
+      }
+      catch(exception& e){
+         cout<<e.what()<<endl;
+       }
+      catch(const char *error){
+        cerr<<error;
+        cout<<endl;
+        cin.clear();// fflush(stdin)
+        cin.ignore(100,'\n');
+        
+      } 
+     }while(c != 'N');
+     cout << "Back to main menu" <<endl; sleep(2);
   }
   else {
     char c;
@@ -169,7 +189,7 @@ void Personal(Personinformation *&P){
       cout << "6) Phone Number"<<endl;
       cout << "7) Address"<<endl;
       cout << "0) Exit"<<endl;
-     
+   //  try{
       chck=0;
       cin >> chck;
       switch (chck){
@@ -208,17 +228,19 @@ void Personal(Personinformation *&P){
         case 0 : break;
         default:{};
       }
+     //}
       } while(chck !=0);
     }
   }while (c != 0);
-}}
+ }
+}
 
-
+/*
 int Add_Place(LL *A){
   NODE *t;
-  int ti[3],to[3], D, M, Y;
+  int ti[3],to[3], D, M, Y,Do,Mo,Yo;
   string s_name, note, H_Num, prov, dis, sub_dis;
-  char check1,check2,check3;
+  string check1,check2,check3,check4;
   int ch=0;
   system("clear");
   
@@ -236,15 +258,25 @@ int Add_Place(LL *A){
   cin>>note;
   time_t now = time(0);
   tm *ltm = localtime(&now);
+  int HT;
+  if(7+ltm->tm_hour>24) HT=7+ltm->tm_hour-24;
+  else HT=7+ltm->tm_hour;
   cout<<"Date is "<<ltm->tm_mday<<"/"<<1 + ltm->tm_mon<<"/"<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
-	cin>>check1;
-  check1=toupper(check1);
-  do{
+	do{
+  cin.clear();
+  cin.ignore(100,'\n');
+  cin>>check1;
+  check1=sTouper(check1);
+  if(check1.compare("Y")==0){
+
+  }
+
     switch(check1){
       case 'Y':{ch=1;
         D=ltm->tm_mday;
         M=1 + ltm->tm_mon;
         Y=1900 + ltm->tm_year;
+        
       };break;
       case 'N':{ch=1;
         cout<<"Input date (dd/mm/yyyy): ";
@@ -255,18 +287,20 @@ int Add_Place(LL *A){
         cin>>Y;
       };break;
       default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again...";
+      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
       }
     }
+    cin.clear();
+    cin.ignore(100,'\n');
   }while(ch==0);
-  cout << "Time in is "<<5+ltm->tm_hour << ":" << 30+ltm->tm_min << ":"<<ltm->tm_sec <<" (Y/N)"<<endl;
+  cout << "Time in is "<<HT<< ":" << ltm->tm_min << ":"<<ltm->tm_sec <<" (Y/N)"<<endl;
+  do{
   cin>>check2;
   check2=toupper(check2);
-  do{
     switch(check2){
       case 'Y':{ch=1;
-        ti[0]=5+ltm->tm_hour;
-        ti[1]=30+ltm->tm_min;
+        ti[0]=HT;
+        ti[1]=ltm->tm_min;
         ti[2]=ltm->tm_sec;
       };break;
       case 'N':{ch=1;
@@ -278,7 +312,7 @@ int Add_Place(LL *A){
       cin>>ti[2];
       };break;
       default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again...";
+      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
       }
     }
   }while(ch==0);
@@ -294,20 +328,46 @@ int Add_Place(LL *A){
   cout<<"note : "<<note<<endl; 
   cout<<"Date : "<<D<<'/'<<M<<'/'<<Y<<endl; 
   cout<<"Time : "<<ti[0]<<':'<<ti[1]<<':'<<ti[2]<<endl; 
-  
-  cout << "Press Enter to Check out...";
-  cin.ignore();
+  sleep(2);
+
+  cout << "Press Enter to Check out..."<<endl;
+  cin.get();
   time_t now1 = time(0);
   tm *ltm1 = localtime(&now1);
-  cout << "Time out is "<<5+ltm1->tm_hour << ":" << 30+ltm1->tm_min << ":"<<ltm1->tm_sec <<" (Y/N)"<<endl;
+  if(7+ltm1->tm_hour>24) HT=7+ltm1->tm_hour-24;
+  else HT=7+ltm1->tm_hour;
+  cout<<"Date is "<<Do<<"/"<<Mo<<"/"<<Yo<<" (Y/N)"<<endl;
+	do{
   cin>>check3;
   check3=toupper(check3);
-  do{
     switch(check3){
       case 'Y':{ch=1;
-        to[0]=5+ltm->tm_hour;
-        to[1]=30+ltm->tm_min;
-        to[2]=ltm->tm_sec;
+        Do=ltm1->tm_mday;
+        Mo=1 + ltm1->tm_mon;
+        Yo=1900 + ltm1->tm_year;
+      };break;
+      case 'N':{ch=1;
+        cout<<"Input date (dd/mm/yyyy): ";
+        cin>>D;
+        cin.ignore();
+        cin>>M;
+        cin.ignore();
+        cin>>Y;
+      };break;
+      default:{ch=0;
+      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
+      }
+    }
+  }while(ch==0);
+  cout << "Time out is "<<HT<< ":" << ltm1->tm_min << ":"<<ltm1->tm_sec <<" (Y/N)"<<endl;
+  do{
+  cin>>check4;
+  check4=toupper(check4);
+    switch(check4){
+      case 'Y':{ch=1;
+        to[0]=HT;
+        to[1]=ltm1->tm_min;
+        to[2]=ltm1->tm_sec;
       };break;
       case 'N':{ch=1;
       cout<<"Input time (hh:mm:ss): ";
@@ -318,7 +378,7 @@ int Add_Place(LL *A){
       cin>>ti[2];
       };break;
       default:{ch=0;
-      cout<<"Invalid choice!!"<<endl<<"Please input again...";
+      cout<<"Invalid choice!!"<<endl<<"Please input again..."<<endl;
       }
     }
   }while(ch==0);
@@ -334,4 +394,4 @@ int Add_Place(LL *A){
   cin.ignore();
 return 1;
 }
-
+*/
