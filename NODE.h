@@ -1,5 +1,5 @@
-
 class NODE{
+      //string x;
       NODE* next;
 public:
         NODE();
@@ -14,4 +14,20 @@ public:
         virtual string returnStname(){return "ff";}
         virtual void show_St();
         virtual int* returntime(){return 0;}
+};
+
+class TotalStoreN : public NODE {
+  public:
+    string storeList;
+    TotalStoreN(string x){
+      storeList = x;
+      //cout <<"Adding storeList " << x <<endl;
+    }
+    ~TotalStoreN(){
+      //cout << "Destruter"<<endl;
+    }
+    void show_node(){
+      //cout << "CCC " << storeList<<endl;
+    }
+    string returnStname(){return storeList;}
 };

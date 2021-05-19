@@ -4,9 +4,9 @@ using namespace std;
 
 
 NODE::NODE(){
-    //  data=x;
+      //data=x;
       next=NULL;
-      cout<<"adding"<<endl;
+      //cout<<"adding"<<endl;
 }
 NODE:: ~NODE(){
       cout<<"Node"<<" is being deleted"<<endl;

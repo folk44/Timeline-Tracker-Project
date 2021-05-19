@@ -34,7 +34,7 @@ class Address{
   void show_node(){
       cout <<H_Number<<" "<<sub_district<<" "<<district<<" "<<province<<endl;
     }
-   virtual void changeAddress(string HNo,string x ,string y , string z){
+  virtual void changeAddress(string HNo,string x ,string y , string z){
       H_Number = HNo;
       sub_district = x;
       district =y;
@@ -46,7 +46,18 @@ Address::Address(string H_Num,string prov,string dis,string sub_dis):H_Number(H_
 }
 Address::~Address(){
   }
-
+/*void Address::show_node(){
+  cout <<H_Number<<" "<<sub_district<<" "<<district<<" "<<province<<endl;
+}
+void Address::changeAddress(string HNo,string x ,string y , string z){
+      H_Number = HNo;
+      sub_district = x;
+      district =y;
+      province = z;
+      cout << "Change Successfully"<<endl;
+      sleep(2);}
+};
+*/
 class Personinformation:public Address{
   private :
   string name;
@@ -62,7 +73,7 @@ class Personinformation:public Address{
   void changeName(string );
   void changeGender(string );
   void changeBloodtype(string );
-  void changeDoB();
+  void changeDoB(int,int,int);
   void changeUdis(string);
   void changePhoneNo(string);
   void changeAddress(string,string,string,string);
@@ -77,9 +88,11 @@ Personinformation :: Personinformation(string n,int d,int m,int y,string phone,s
   cout << "Personal Information Constructer" <<endl;
 }
   void Personinformation :: show_perInfo(){
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
     cout << "Name : " << name <<endl;
     cout << "Gender : " << gender <<"\t Blood Type : "<<blood_type<<endl;
-    cout << "Date of birth : " << dd <<"/" << mm << "/"<< yy<< "   Age : " <<endl;
+    cout << "Date of birth : " << dd <<"/" << mm << "/"<< yy<< "   Age : "<<(1900 + ltm->tm_year)-yy <<endl;
     cout << "Underlying disease : "<< per_disease <<endl;
     cout << "Phone Number : " << phone_number<<endl;
     Address :: show_node();
@@ -102,10 +115,8 @@ Personinformation :: Personinformation(string n,int d,int m,int y,string phone,s
     cout << "Change Successfully"<<endl;
     sleep(2);
   }
-  void Personinformation :: changeDoB(){
-    int x,y,z;
-    cout << "Date of birth " << dd <<"/" << mm << "/"<< yy  << "  --> ";
-    cin >> x>>y>>z;
+  void Personinformation :: changeDoB(int x,int y,int z){
+    cout << "Date of birth " << dd <<"/" << mm << "/"<< yy  << "  --> " << x <<"/" << y << "/"<< z <<endl ;
     dd=x; mm=y; yy=z;
     cout << "Change Successfully"<<endl;
     sleep(2);
@@ -142,23 +153,13 @@ class timeline:public Address,public NODE{
   public:
     timeline(int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,int=0,string="Unknow",string="---",string="999",string="Nakorn Pathom", string="Phutthamonth",string="Salaya");
     ~timeline();
-    void show_node(){
-      cout << "Date " << D <<"/"<< M <<"/"<< Y<<" Time "<<timein[0]<<":"<<timein[1]<<":"<<timein[2] << " - "<<timeout[0]<<":"<<timeout[1]<<":"<<timeout[2] << " ==> "; 
-      Address ::show_node();
-    }
-    
+    void show_node();
     int returnD(){return D;}
     int returnM(){return M;}
     int returnY(){return Y;}
     int* returntime(){return timein;}
-
-
     string returnStname(){return storename;}
-    void show_St(){
-      cout << "Store name : "<< storename << endl;
-    }
-
-    
+    void show_St();
 };
 
 timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,int z,int a,int b, int c,string sn,string no,string H_Num,string prov,string dis,string sub_dis):Address(H_Num,prov,dis,sub_dis){
@@ -183,5 +184,19 @@ timeline::~timeline(){
   cout<<"Delete Timeline"<<endl;
 }
 
+void timeline::show_St(){
+      cout << "Store name : "<< storename << endl;
+}
+
+void timeline::show_node(){
+      cout << "Date " <<setfill('0')<<setw(2)<< D <<"/"<<setfill('0')<<setw(2)<< M <<"/"<< Y <<" Time "<<setfill('0')<<setw(2)<<timein[0]<<":"<<setfill('0')<<setw(2)<<timein[1]<<":"<<setfill('0')<<setw(2)<<timein[2];
+      if(D!=Do) {
+      cout << " - "<<setfill('0')<<setw(2)<< Do <<"/"<<setfill('0')<<setw(2)<< Mo <<"/"<< Yo <<" Time "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << storename<<" ";
+      }
+      else{
+      cout  << " - "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << storename<<" "; 
+      }
+      Address ::show_node();
+}
 
 #endif

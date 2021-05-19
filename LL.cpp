@@ -3,6 +3,38 @@ using namespace std;
 #include"NODE.h"
 #include "LL.h"
 #include <ctime>
+#include <sstream>
+
+int StrToIntt(string x){
+  int y;
+  stringstream geek(x);
+  geek >> y;
+  return y;
+}
+
+int LLcheckLeapYear(int year){
+  int check;// = 1 LeapYear // = 0 not LeapYear
+  if (year%4!=0) check=0;
+  else if (year%100!=0) check=1;
+  else if (year%400!=0) check=0;
+  else check=1;
+  return check;
+}
+
+int LLcheckDate(int d,int m,int y){
+  int x,ly;
+  ly = LLcheckLeapYear(y);
+    if (d<=0||m<=0||y<=0 || m > 12 || d > 31 ) x=0;
+    else if (m==2 && d > 29) x=0;
+    else if (m==2 && ly==0 && d==29) x=0;
+    else if (d==31){
+      if(m==4 ||m==6 ||m==9 ||m==11 ) x=0;
+    }
+    else x=1; 
+  return (x);
+}
+
+
 
 LL::LL(){
        hol=NULL;
@@ -30,6 +62,8 @@ void LL::show_all(){
      }
      else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
   }
+  
+
 
 void LL::add_node(NODE *&A){
         if(hol!=NULL){
@@ -113,14 +147,32 @@ void LL::add_node(NODE *&A){
         }
         size++;
 }
+void LL::add_node_St(NODE *&A){
+  hol->insert(A);
+          hol=A;
+       size++;
+}
 
 void LL::search(){
   NODE * t=hol;
   if(t!=NULL){
-  int i=0,d,m,y;
-  cout<<"Enter DD MM YY : "<<endl;
-  cin>>d>>m>>y;
-  
+  int i=0,d,m,y,x=0;
+  string D,M,Y;
+  cout<<"Enter DD MM YYYY : "<<endl;
+    do{
+        cin.clear();
+        
+        cin >> D ;
+        cin.ignore();
+        cin>> M;
+        cin.ignore(); 
+        cin>> Y;
+        d=StrToIntt(D);
+        m=StrToIntt(M);
+        y=StrToIntt(Y);
+        x = LLcheckDate(d,m,y);
+          }while(x!=1);
+          
   while(t!=NULL){
     if(d==t->returnD() && m==t->returnM() && y==t->returnY() ){
       i++;
@@ -133,38 +185,59 @@ void LL::search(){
  }
 
 void LL::searchStname(){
+  LL S;
   NODE * t=hol;
+  NODE * s;
   NODE * check=hol;
-  int i,d,j,n=1,c;
-  string st;
+  int i,j,d,n=1,c;
+  string st,temp,D;
   if (t!=NULL){
   for(i=0;i<size;i++){
+    check=hol;
     c=0;
     if(i != 0){
       st=t->returnStname();
       for (j=0;j<i;j++){
           if(st==check->returnStname()){
-            c=1; break;
+            c=1;
           }
-          check->move_next();
+          check=check->move_next();
         }
       }
     if(c==0){
         cout<<n<<") ";
         t->show_St();
+        temp=t->returnStname();
+        s=new TotalStoreN(temp);
+        S.add_node_St(s);
         n++;
     }
 	    t=t->move_next();  
-     }cout <<"Done"<<endl;
+     }
+  cout<<"Choose & Input number"<<endl;
   do{
-  cout<<"Enter NO. : "<<endl;
-  cin>>d;
-  }while(d<0||d>i);
+    c=0;
+  cout<<"> ";
+  cin>>D;
+    d=StrToIntt(D);
+    if (d > 0 && d <n ) c=1;
+    else cout << "Invalid choice!! \nPlease input again..." <<endl;
+  }while (c==0);
+  d = S.size-d;
+  /*st=t->returnStname();
+  n=1;
+  while(n<d){
+    if(st!=t->move_next()->returnStname()){
+      n++;
+      st=t->move_next()->returnStname();
+    }
+    else t=t->move_next();
+  }*/
   t=hol;
-
-  for(i=0;i<d-1;i++) t=t->move_next();
-  st=t->returnStname();
-  t=hol;
+  s=S.hol;
+  for (i=0; i<d ;i++ ) s=s->move_next();
+  st = s->returnStname();
+  
   while(t!=NULL){
     if(st==t->returnStname()){
       t->show_node();
@@ -182,7 +255,7 @@ void LL::rw_node(){
     while(pre){
         d[0]=pre->returnM();
         d[1]=pre->returnY();
-        diff=((ltm->tm_year*12)+ltm->tm_mon)-((pre->returnY()*12)+pre->returnM());
+        diff=(((1900 + ltm->tm_year)*12)+(1 + ltm->tm_mon))-((pre->returnY()*12)+pre->returnM());
       if(diff>3){
         if(pos!=NULL){
           t=pre;
@@ -203,3 +276,4 @@ void LL::rw_node(){
       }
     }
 }  
+

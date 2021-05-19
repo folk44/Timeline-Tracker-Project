@@ -6,6 +6,7 @@
 #include<string>
 #include <ctype.h>
 #include <ctime>
+#include <iomanip>
 #include <limits>
 #include <sstream>
 #include"time.h"
@@ -15,7 +16,7 @@ using namespace std;
 #include "class.h"
 #include"LL.h"
 #include <cstring>
- 
+
 
 
 int Add_Place(LL *);
@@ -23,6 +24,8 @@ void Personal(Personinformation*&);
 void Showmenu(LL *);
 int StrToInt(string );
 int checkDate(int ,int ,int );
+int checkLeapYear(int );
+int checkTime(int ,int ,int );
 
 string sTouper(string x){
   int i;
@@ -31,7 +34,8 @@ string sTouper(string x){
     return x;
 }
 void user_input(string text , string *input){
-  cout<<text<<endl;
+  cout<<endl<<text<<endl;
+  cout<<"> ";
   cin>>*input;
   *input=sTouper(*input);
 }
@@ -93,6 +97,7 @@ void Showmenu(LL *A){
   cout<<"0. Back to main menu"<<endl;
   cout<<"Please input your choice ...."<<endl;
   try{
+    cout<<"> ";
     cin >> c;
     if (c!="1" && c!="2" && c!="3" && c!="0")
       throw inchoice;
@@ -120,6 +125,7 @@ void Personal(Personinformation *&P){
     system("clear");
      cout << " Identity Not found " <<endl;
      cout << "Do u want to register now ? (Y/N)"<<endl;
+     cout << ">";
     try{
      cin >> c;
      c[0]=toupper(c[0]);
@@ -136,8 +142,10 @@ void Personal(Personinformation *&P){
         cout << "Blood Type : ";
         cin >> bt;
         bt = sTouper(bt);
-        cout << "Date of birth (dd/mm/yyyy): " ;
+        cout << "Date of birth (dd mm yyyy): " ;
           do{
+             cout << ">";
+              cin.clear();
               cin >> D ;
               cin.ignore();
               cin>> M;
@@ -184,7 +192,8 @@ void Personal(Personinformation *&P){
     system("clear");
     P->show_perInfo();
     cout << "1)Edit information "<<endl;
-    cout << "2)Return to menu"<<endl;
+    cout << "2)Back to menu"<<endl;
+    cout << ">";
     try{
     cin>>c;
     if (c!="1" && c!="2")
@@ -192,7 +201,8 @@ void Personal(Personinformation *&P){
     if (c[0] == '1'){
        do{
         system("clear");
-      string hn,x,y,z;
+      string hn,x,y,z,D,M,Y;
+      int ddd,mm,yy,k;
       cout << "Which information that u want to change"<<endl;
       cout << "1) Name"<<endl;
       cout << "2) Gender"<<endl;
@@ -202,8 +212,8 @@ void Personal(Personinformation *&P){
       cout << "6) Phone Number"<<endl;
       cout << "7) Address"<<endl;
       cout << "0) Exit"<<endl;
-   //  try{
-      //chck[0]=0;
+      cout << ">";
+      try{
       cin >> chck;
       if(chck!="2"&&chck!="3"&&chck!="4"&&chck!="5"&&chck!="6"&&chck!="7"&&chck!="0"&&chck!="1")
         throw inchoice;
@@ -217,7 +227,21 @@ void Personal(Personinformation *&P){
         case '3' : {cout << "Change Blood type to "; cin>>x; 
                   x = sTouper(x);P->changeBloodtype(x) ;}
                   break;
-        case '4' :  P->changeDoB() ;
+        case '4' :  {cout << "Change Date of birth to "<<endl;
+                     do{
+                          cout << ">";
+                          cin.clear();
+                          cin >> D ; 
+                          cin.ignore();
+                          cin>> M ;
+                          cin.ignore(); 
+                          cin>> Y ;
+                          ddd=StrToInt(D);
+                          mm=StrToInt(M);
+                          yy=StrToInt(Y);
+                          k = checkDate(ddd,mm,yy);
+          }while(k != 1 );
+                  P->changeDoB(ddd,mm,yy) ;}
                   break;
         case '5' : {cout << "Change Underlying disease to "; cin>>x; 
                   x = sTouper(x);P->changeUdis(x) ;}
@@ -243,7 +267,12 @@ void Personal(Personinformation *&P){
         case '0' : break;
         default:{};
       }
-     //}
+     }catch(exception& e){
+         cout<<e.what()<<endl;
+         cin.clear();// fflush(stdin)
+         cin.ignore(100,'\n');
+         sleep(2);
+       }
       } while(chck[0] !='0');
     }
     }
@@ -276,8 +305,10 @@ int Add_Place(LL *A){
 
   time_t now = time(0);
   tm *ltm = localtime(&now);
-  cout<<"Date is "<<ltm->tm_mday<<"/"<<1 + ltm->tm_mon<<"/"<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
+  cout<<endl<<"#Check in"<<endl;
+  cout<<"Date is "<<setfill('0')<<setw(2)<<ltm->tm_mday<<"/"<<setfill('0')<<setw(2)<<1 + ltm->tm_mon<<"/"<<setfill('0')<<setw(2)<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
 	do{
+  cout<<"> ";
   cin>>check1;
   check1=sTouper(check1);
   try{
@@ -289,47 +320,71 @@ int Add_Place(LL *A){
         Y=1900 + ltm->tm_year;
       };break;
       case 'N':{ch=1;
-        cout<<"Input date (dd/mm/yyyy): ";
-        cin>>D;
-        cin.ignore();
-        cin>>M;
-        cin.ignore();
-        cin>>Y;
+        int x=0;
+        string d,m,y;
+        cout<<endl<<"Input date (dd mm yyyy): ";
+          do{
+              cin.clear();
+
+              cin >> d ;
+              cin.ignore();
+              cin>> m;
+              cin.ignore(); 
+              cin>> y;
+              D=StrToInt(d);
+              M=StrToInt(m);
+              Y=StrToInt(y);
+              x = checkDate(D,M,Y);
+          }while(x!=1);
       };break;
     }
   }
     catch(exception& e){
-      cout<<e.what()<<endl;
+      cout<<endl<<e.what()<<endl;
       sleep(1);
+      ch=0;
     }
     cin.clear();
     cin.ignore(100,'\n');
   }while(ch==0);
-  cout << "Time in is "<<HT<< ":" << ltm->tm_min << ":"<<ltm->tm_sec <<" (Y/N)"<<endl;
+  
+  cout <<endl<< "Time is "<<setfill('0')<<setw(2)<<7+ltm->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm->tm_min << ":"<<setfill('0')<<setw(2)<<ltm->tm_sec <<" (Y/N)"<<endl;
   do{
+  cout<<"> ";
   cin>>check2;
   check2=sTouper(check2);
   try{
     if (check2!="Y" && check2!="N") throw inchoice;
     switch(check2[0]){
       case 'Y':{ch=1;
-        ti[0]=HT;
+        ti[0]=7+ltm->tm_hour;
         ti[1]=ltm->tm_min;
         ti[2]=ltm->tm_sec;
       };break;
       case 'N':{ch=1;
-      cout<<"Input time (hh:mm:ss): ";
-      cin>>ti[0];
+      string H,M,S;
+      int x=0;
+      cout<<endl<<"Input time (hh:mm:ss): ";
+      do{
+      cin.clear();
+      
+      cin>>H;
       cin.ignore();
-      cin>>ti[1];
+      cin>>M;
       cin.ignore();
-      cin>>ti[2];
+      cin>>S;
+      ti[0]=StrToInt(H);
+      ti[1]=StrToInt(M);
+      ti[2]=StrToInt(S);
+      x=checkTime(ti[0],ti[1],ti[2]);
+      }while(x!=1);
       };break;
     }
   }
   catch(exception& e){
-      cout<<e.what()<<endl;
-      sleep(1);
+      cout<<endl<<e.what()<<endl;
+      sleep(2);
+      ch=0;
     }
     cin.clear();
     cin.ignore(100,'\n');
@@ -344,18 +399,20 @@ int Add_Place(LL *A){
   cout<<"District : "<<dis<<endl;
   cout<<"Sub-district : "<<sub_dis<<endl;  
   cout<<"note : "<<note<<endl; 
-  cout<<"Date : "<<D<<'/'<<M<<'/'<<Y<<endl; 
-  cout<<"Time : "<<ti[0]<<':'<<ti[1]<<':'<<ti[2]<<endl; 
+  cout<<"Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
+  cout<<"Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl; 
+  cout<<"*** Checked in ***"<<endl<<endl;
   sleep(2);
 
-  cout << "Press Enter to Check out..."<<endl;
+  cout << "Press Enter to Check out...";
   cin.get();
+
   time_t now1 = time(0);
   tm *ltm1 = localtime(&now1);
-  if(7+ltm1->tm_hour>24) HT=7+ltm1->tm_hour-24;
-  else HT=7+ltm1->tm_hour;
-  cout<<"Date is "<<D<<"/"<<M<<"/"<<Y<<" (Y/N)"<<endl;
+  cout<<endl<<"#Check out"<<endl;
+  cout<<"Date is "<<setfill('0')<<setw(2)<<D<<"/"<<setfill('0')<<setw(2)<<M<<"/"<<setfill('0')<<setw(2)<<Y<<" (Y/N)"<<endl;
 	do{
+  cout<<"> ";
   cin>>check3;
   check3=sTouper(check3);
   try{
@@ -367,48 +424,71 @@ int Add_Place(LL *A){
         Yo=Y;
       };break;
       case 'N':{ch=1;
-        cout<<"Input date (dd/mm/yyyy): ";
-        cin>>D;
-        cin.ignore();
-        cin>>M;
-        cin.ignore();
-        cin>>Y;
+        int x=0;
+        string d,m,y;
+        cout<<endl<<"Input date (dd mm yyyy): ";
+          do{
+              cin.clear();
+
+              cin >> d ;
+              cin.ignore();
+              cin>> m;
+              cin.ignore(); 
+              cin>> y;
+              Do=StrToInt(d);
+              Mo=StrToInt(m);
+              Yo=StrToInt(y);
+              x = checkDate(Do,Mo,Yo);
+          }while(x!=1);
       };break;
       }
     }
     catch(exception& e){
-      cout<<e.what()<<endl;
+      cout<<endl<<e.what()<<endl;
       sleep(1);
+      ch=0;
     }
     cin.clear();
     cin.ignore(100,'\n');
   }while(ch==0);
 
-  cout << "Time out is "<<HT<< ":" << ltm1->tm_min << ":"<<ltm1->tm_sec <<" (Y/N)"<<endl;
+  cout << "Time out is "<<setfill('0')<<setw(2)<<7+ltm1->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm1->tm_min << ":"<<setfill('0')<<setw(2)<<ltm1->tm_sec <<" (Y/N)"<<endl;
   do{
+  cout<<"> ";
   cin>>check4;
   check4=sTouper(check4);
   try{
   if (check4!="Y" && check4!="N") throw inchoice;
     switch(check4[0]){
       case 'Y':{ch=1;
-        to[0]=HT;
+        to[0]=7+ltm1->tm_hour;
         to[1]=ltm1->tm_min;
         to[2]=ltm1->tm_sec;
       };break;
       case 'N':{ch=1;
+      string H,M,S;
+      int x=0;
       cout<<"Input time (hh:mm:ss): ";
-      cin>>ti[0];
+      do{
+      cin.clear();
+
+      cin>>H;
       cin.ignore();
-      cin>>ti[1];
+      cin>>M;
       cin.ignore();
-      cin>>ti[2];
+      cin>>S;
+      to[0]=StrToInt(H);
+      to[1]=StrToInt(M);
+      to[2]=StrToInt(S);
+      x=checkTime(to[0],to[1],to[2]);
+      }while(x!=1);
       };break;
     }
   }
     catch(exception& e){
-      cout<<e.what()<<endl;
+      cout<<endl<<e.what()<<endl;
       sleep(1);
+      ch=0;
     }
     cin.clear();
     cin.ignore(100,'\n');
@@ -418,10 +498,10 @@ int Add_Place(LL *A){
   A->add_node(t);
 
   cin.clear();
-  cin.ignore(1000,'\n');
-
-  cout<<"Checked out"<<endl;
-  cout << "Press Enter to back to menu..."<<endl;
+  //cin.ignore(10000,'\n');
+  cout<<"*** Checked out ***"<<endl;
+  sleep(2);
+  cout << "Press Enter to back to menu...";
   cin.ignore();
 return 1;
 }
@@ -434,10 +514,12 @@ int StrToInt(string x){
 }
 
 int checkDate(int d,int m,int y){
-  int x;
+  int x,ly;
+  ly = checkLeapYear(y);
   try{
-    if (d==0||m==0||y==0 || m > 12 || d > 31) throw indate;
-    else if (m==2 && d > 29 ) throw indate;
+    if (d<=0||m<=0||y<=0 || m > 12 || d > 31 ) throw indate;
+    else if (m==2 && d > 29) throw indate;
+    else if (m==2 && ly==0 && d==29) throw indate;
     else if (d==31){
       if(m==4 ||m==6 ||m==9 ||m==11 ) throw indate;
      }
@@ -452,3 +534,33 @@ int checkDate(int d,int m,int y){
   }
   return (x);
 }
+int checkLeapYear(int year){
+  int check;// = 1 LeapYear // = 0 not LeapYear
+  if (year%4!=0) check=0;
+  else if (year%100!=0) check=1;
+  else if (year%400!=0) check=0;
+  else check=1;
+  return check;
+}
+
+int checkTime(int h ,int m,int s){
+  int x;
+  try{
+        if (h>=24 || h<0 ||m>=60 || m<0 ||s>=60 || s<0 ) throw indate;
+    x=1;
+  }
+  catch(exception& e){
+      cout<<e.what()<<endl;
+      cin.clear();// fflush(stdin)
+      cin.ignore(100,'\n');
+       sleep(1);
+      x=0;
+  }
+  return (x);
+}
+
+// Timeline Tracker Project | Mahidol Unibersity | EGCO 112 | 23 / 4 / 2021 - 19 / 5 / 2021
+// Project team 
+//  1)6313138 Yutthasat Phoncharoenpong
+//  2)6313175 Thanaphat Sae-Be
+//  3)6313210 Krittawat Thongnoppakao
