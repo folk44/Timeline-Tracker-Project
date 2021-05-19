@@ -1,2 +1,2 @@
 target: NODE.cpp LL.cpp main.cpp
-	g++ NODE.cpp LL.cpp main.cpp -o test
+	g++ NODE.cpp LL.cpp main.cpp -o timeline

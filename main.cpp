@@ -11,7 +11,6 @@
 #include <sstream>
 #include"time.h"
 using namespace std;
-
 #include"NODE.h"
 #include "class.h"
 #include"LL.h"
@@ -48,7 +47,8 @@ int main() {
   do{
   A.rw_node();
   system("clear");
-  cout<<"Timeline Tracker"<<endl<<endl;
+  cout<<"Timeline Tracker"<<endl;
+  cout<<"------------------"<<endl<<endl;
   cout<<"1. Add place"<<endl;
   cout<<"2. Show place"<<endl;
   cout<<"3. Personal info"<<endl;
@@ -102,9 +102,9 @@ void Showmenu(LL *A){
     if (c!="1" && c!="2" && c!="3" && c!="0")
       throw inchoice;
      switch (c[0]){
-        case '1':A->show_all();cin.ignore();cin.ignore();break;
-        case '2':A->search();cin.ignore();cin.ignore();break;
-        case '3':A->searchStname();cin.ignore();cin.ignore();break;
+        case '1':A->show_all();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
+        case '2':A->search();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
+        case '3':A->searchStname();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
         case '0':cout << "Back to main menu"<<endl;sleep(2);break;
     }
   }
@@ -125,7 +125,7 @@ void Personal(Personinformation *&P){
     system("clear");
      cout << " Identity Not found " <<endl;
      cout << "Do u want to register now ? (Y/N)"<<endl;
-     cout << ">";
+     cout << "> ";
     try{
      cin >> c;
      c[0]=toupper(c[0]);
@@ -144,7 +144,7 @@ void Personal(Personinformation *&P){
         bt = sTouper(bt);
         cout << "Date of birth (dd mm yyyy): " ;
           do{
-             cout << ">";
+             cout << "> ";
               cin.clear();
               cin >> D ;
               cin.ignore();
@@ -193,7 +193,7 @@ void Personal(Personinformation *&P){
     P->show_perInfo();
     cout << "1)Edit information "<<endl;
     cout << "2)Back to menu"<<endl;
-    cout << ">";
+    cout << "> ";
     try{
     cin>>c;
     if (c!="1" && c!="2")
@@ -212,7 +212,7 @@ void Personal(Personinformation *&P){
       cout << "6) Phone Number"<<endl;
       cout << "7) Address"<<endl;
       cout << "0) Exit"<<endl;
-      cout << ">";
+      cout << "> ";
       try{
       cin >> chck;
       if(chck!="2"&&chck!="3"&&chck!="4"&&chck!="5"&&chck!="6"&&chck!="7"&&chck!="0"&&chck!="1")
@@ -229,7 +229,7 @@ void Personal(Personinformation *&P){
                   break;
         case '4' :  {cout << "Change Date of birth to "<<endl;
                      do{
-                          cout << ">";
+                          cout << "> ";
                           cin.clear();
                           cin >> D ; 
                           cin.ignore();

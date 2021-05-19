@@ -9,7 +9,7 @@ NODE::NODE(){
       //cout<<"adding"<<endl;
 }
 NODE:: ~NODE(){
-      cout<<"Node"<<" is being deleted"<<endl;
+      
 }
 
 NODE* NODE::move_next(){

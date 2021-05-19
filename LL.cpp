@@ -4,6 +4,7 @@ using namespace std;
 #include "LL.h"
 #include <ctime>
 #include <sstream>
+#include <iomanip>
 
 int StrToIntt(string x){
   int y;
@@ -156,7 +157,7 @@ void LL::add_node_St(NODE *&A){
 void LL::search(){
   NODE * t=hol;
   if(t!=NULL){
-  int i=0,d,m,y,x=0;
+  int i=0,d,m,y,x=0,c=0;
   string D,M,Y;
   cout<<"Enter DD MM YYYY : "<<endl;
     do{
@@ -178,10 +179,15 @@ void LL::search(){
       i++;
       cout<<i<<")";
       t->show_node();
+      c=1;
     }
     t=t->move_next();
   }
+  if(c==0){
+    cout <<setfill('0')<<setw(2)<<d << "/"<<setfill('0')<<setw(2)<< m << "/"<<setfill('0')<<setw(2)<< y <<" have no Timeline"<<endl;
+  }
   }else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
+  
  }
 
 void LL::searchStname(){
