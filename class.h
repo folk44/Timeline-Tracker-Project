@@ -2,21 +2,22 @@
 #define class_h
 using namespace std;
 
+
 class In_choice : public exception{
   virtual const char* what () const throw(){
-    return "Invalid choice!! \nPlease input again...";
+    return "\n Invalid Choice!!\n ****************\n Please Input Again...";
   }
 }inchoice;
 
 class In_Date : public exception{
   virtual const char* what () const throw(){
-    return "Invalid Date!! \nPlease input again...";
+    return "\n Invalid Date!!\n **************\n Please Input Again...";
   }
 }indate;
 
 class In_Time : public exception{
   virtual const char* what () const throw(){
-    return "Invalid Time!! \nPlease input again...";
+    return "\n Invalid Time!!\n **************\n Please Input Again...";
   }
 }intime;
 
@@ -32,14 +33,15 @@ class Address{
   Address(string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
   ~Address();
   void show_node(){
-      cout <<H_Number<<" "<<sub_district<<" "<<district<<" "<<province<<endl;
+      cout <<" "<<H_Number<<" "<<sub_district<<" "<<district<<" "<<province<<endl;
     }
   virtual void changeAddress(string HNo,string x ,string y , string z){
       H_Number = HNo;
       sub_district = x;
       district =y;
       province = z;
-      cout << "Change Successfully"<<endl;
+      cout<<"--------------------------------"<<endl;
+      cout << " Change Successfully"<<endl;
       sleep(2);}
 };
 Address::Address(string H_Num,string prov,string dis,string sub_dis):H_Number(H_Num),province(prov),district(dis),sub_district(sub_dis){ 
@@ -61,16 +63,18 @@ void Address::changeAddress(string HNo,string x ,string y , string z){
 class Personinformation:public Address{
   private :
   string name;
+  string surname;
   string gender;
   string blood_type;
   string per_disease;
   string phone_number;
   int dd,mm,yy;
   public :
-  Personinformation(string,int ,int ,int ,string,string = "Unknow",string = "Unknow",string = "---",string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
+  Personinformation(string,string,int ,int ,int ,string,string = "Unknow",string = "Unknow",string = "---",string="999",string="Nakorn Pathom",string="Phutthamonth",string="Salaya");
   ~Personinformation();
   void show_perInfo();
   void changeName(string );
+  void changeSurName(string );
   void changeGender(string );
   void changeBloodtype(string );
   void changeDoB(int,int,int);
@@ -78,28 +82,36 @@ class Personinformation:public Address{
   void changePhoneNo(string);
   void changeAddress(string,string,string,string);
 };
-Personinformation :: Personinformation(string n,int d,int m,int y,string phone,string gen,string bt,string pd,string H_Num,string prov,string dis,string sub_dis):Address (H_Num,prov,dis,sub_dis){
-  name = n; 
+Personinformation :: Personinformation(string n,string sn,int d,int m,int y,string phone,string gen,string bt,string pd,string H_Num,string prov,string dis,string sub_dis):Address (H_Num,prov,dis,sub_dis){
+  name = n;
+  surname = sn;
   gender = gen; 
   blood_type = bt; 
   per_disease = pd; 
   phone_number = phone; 
   dd=d ; mm=m ; yy=y;
-  cout << "Personal Information Constructer" <<endl;
+  //cout << "Personal Information Constructer" <<endl;
 }
   void Personinformation :: show_perInfo(){
     time_t now = time(0);
     tm *ltm = localtime(&now);
-    cout << "Name : " << name <<endl;
-    cout << "Gender : " << gender <<"\t Blood Type : "<<blood_type<<endl;
-    cout << "Date of birth : " << dd <<"/" << mm << "/"<< yy<< "   Age : "<<(1900 + ltm->tm_year)-yy <<endl;
-    cout << "Underlying disease : "<< per_disease <<endl;
-    cout << "Phone Number : " << phone_number<<endl;
+    cout << " Name : " << name << " " << surname <<endl;
+    cout << " Gender : " << gender <<"\n Blood Type : "<<blood_type<<endl;
+    cout << " Date of birth : " << dd <<"/" << mm << "/"<< yy<< "\n Age : "<<(1900 + ltm->tm_year)-yy <<endl;
+    cout << " Underlying disease : "<< per_disease <<endl;
+    cout << " Phone Number : " << phone_number<<endl;
+    cout << " Address :";
     Address :: show_node();
   }
   void Personinformation :: changeName(string x){
     cout << "Name " << name << "  --> "<<x << endl;
     name =x;
+    cout << "Change Successfully"<<endl;
+    sleep(2);
+  }
+  void Personinformation :: changeSurName(string x){
+    cout << "Surname " << surname << "  --> "<<x << endl;
+    surname =x;
     cout << "Change Successfully"<<endl;
     sleep(2);
   }
@@ -181,7 +193,7 @@ timeline::timeline(int tih,int tim,int tis,int toh,int tom,int tos,int x,int o,i
   note = no;
 }
 timeline::~timeline(){
-  cout<<"Delete Timeline"<<endl;
+  cout<<" Delete Timeline"<<endl;
 }
 
 void timeline::show_St(){
@@ -189,12 +201,12 @@ void timeline::show_St(){
 }
 
 void timeline::show_node(){
-      cout << "Date " <<setfill('0')<<setw(2)<< D <<"/"<<setfill('0')<<setw(2)<< M <<"/"<< Y <<" Time "<<setfill('0')<<setw(2)<<timein[0]<<":"<<setfill('0')<<setw(2)<<timein[1]<<":"<<setfill('0')<<setw(2)<<timein[2];
+      cout << " Date " <<setfill('0')<<setw(2)<< D <<"/"<<setfill('0')<<setw(2)<< M <<"/"<< Y <<" Time "<<setfill('0')<<setw(2)<<timein[0]<<":"<<setfill('0')<<setw(2)<<timein[1]<<":"<<setfill('0')<<setw(2)<<timein[2];
       if(D!=Do) {
-      cout << " - "<<setfill('0')<<setw(2)<< Do <<"/"<<setfill('0')<<setw(2)<< Mo <<"/"<< Yo <<" Time "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << storename<<" ";
+      cout << " - "<<setfill('0')<<setw(2)<< Do <<"/"<<setfill('0')<<setw(2)<< Mo <<"/"<< Yo <<" Time "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << "\t"<<storename<<" ";
       }
       else{
-      cout  << " - "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << storename<<" "; 
+      cout  << " - "<<setfill('0')<<setw(2)<<timeout[0]<<":"<<setfill('0')<<setw(2)<<timeout[1]<<":"<<setfill('0')<<setw(2)<<timeout[2] <<endl << "\t"<<storename<<" "; 
       }
       Address ::show_node();
 }

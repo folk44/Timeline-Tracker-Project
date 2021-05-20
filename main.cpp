@@ -15,6 +15,7 @@ using namespace std;
 #include "class.h"
 #include"LL.h"
 #include <cstring>
+#include"Decor.h"
 
 
 
@@ -25,6 +26,7 @@ int StrToInt(string );
 int checkDate(int ,int ,int );
 int checkLeapYear(int );
 int checkTime(int ,int ,int );
+void changeTimezone(tm *);
 
 string sTouper(string x){
   int i;
@@ -33,8 +35,8 @@ string sTouper(string x){
     return x;
 }
 void user_input(string text , string *input){
-  cout<<endl<<text<<endl;
-  cout<<"> ";
+  cout<<" "<<text<<endl;
+  cout<<" > ";
   cin>>*input;
   *input=sTouper(*input);
 }
@@ -47,13 +49,13 @@ int main() {
   do{
   A.rw_node();
   system("clear");
-  cout<<"Timeline Tracker"<<endl;
-  cout<<"------------------"<<endl<<endl;
-  cout<<"1. Add place"<<endl;
-  cout<<"2. Show place"<<endl;
-  cout<<"3. Personal info"<<endl;
-  cout<<"0. Exit"<<endl;
-  cout<<"Please input your choice ...."<<endl;
+  head();//Decor
+  cout<<"\t\t\t>>MENU<<"<<endl;
+  cout<<"\t1) Add Place"<<endl;
+  cout<<"\t2) Show Place"<<endl;
+  cout<<"\t3) Personal Info"<<endl;
+  cout<<"\t0) Exit"<<endl;
+  PleIn();//Decor
   cin>>ch;
   try{
     if (ch!="1" && ch!="2" && ch!="3" && ch!="0")
@@ -90,22 +92,22 @@ void Showmenu(LL *A){
   string temp;
   do{
   system("clear");
-  cout<<"Timeline Tracker"<<endl<<endl;
-  cout<<"1. Show All Timeline" << endl;
-  cout<<"2. Search Date "<<endl;
-  cout<<"3. Search Store Name "<<endl;
-  cout<<"0. Back to main menu"<<endl;
-  cout<<"Please input your choice ...."<<endl;
+  head();//Decor
+  cout<<"\t\t  >> MENU <<"<<endl;
+  cout<<"\t1) Show All Timeline" << endl;
+  cout<<"\t2) Search Date "<<endl;
+  cout<<"\t3) Search Store Name "<<endl;
+  cout<<"\t0) Back to Main Menu"<<endl;
+  PleIn();//Decore
   try{
-    cout<<"> ";
     cin >> c;
     if (c!="1" && c!="2" && c!="3" && c!="0")
       throw inchoice;
      switch (c[0]){
-        case '1':A->show_all();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
-        case '2':A->search();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
-        case '3':A->searchStname();cout <<endl<< "Press Enter to back to menu...";cin.ignore();cin.ignore();break;
-        case '0':cout << "Back to main menu"<<endl;sleep(2);break;
+        case '1':A->show_all();cout <<endl<<"--------------------------------"<<endl<<" Press Enter to Go Back...";cin.ignore();cin.ignore();break;
+        case '2':A->search();cout <<endl<<"--------------------------------"<<endl<< " Press Enter to Go Back...";cin.ignore();cin.ignore();break;
+        case '3':A->searchStname();cout<<endl<<"--------------------------------"<<endl<< " Press Enter to Go Back...";cin.ignore();cin.ignore();break;
+        case '0':cout << " Back to Main Menu"<<endl;sleep(2);break;
     }
   }
   catch(exception& e){
@@ -119,32 +121,37 @@ void Showmenu(LL *A){
 void Personal(Personinformation *&P){
   if (P == NULL){
     string c;
-    string name,gen,bt,pd,H_Num,prov,dis,sub_dis,phone,D,M,Y;
+    string name[2],gen,bt,pd,H_Num,prov,dis,sub_dis,phone,D,M,Y;
     int d,m,y,x=0;
     do{
     system("clear");
-     cout << " Identity Not found " <<endl;
-     cout << "Do u want to register now ? (Y/N)"<<endl;
-     cout << "> ";
+    head();
+     cout << "\t  Identity Not Found!! " <<endl<<endl;
+     cout << " Do You Want to Register Now ? (Y/N)"<<endl;
+     cout << " > ";
     try{
      cin >> c;
+     cout<<"--------------------------------"<<endl;
      c[0]=toupper(c[0]);
       if (c!="Y" && c!="N")
         throw inchoice;
      if (c == "Y"){
-        cout << ">> Enter your Infomation <<"<<endl;
-        cout << "Name : " ;
-        cin >> name;
-        name = sTouper(name);
-        cout << "Gender : " ;
+        cout <<endl<< "  >> Enter Your Information <<"<<endl<<endl;
+        cout << " Name"<<endl<<" > ";
+        cin >> name[0];
+        name[0] = sTouper(name[0]);
+        cout << " Surname"<<endl<<" > ";
+        cin >> name[1];
+        name[1] = sTouper(name[1]);
+        cout << " Gender"<<endl<<" > " ;
         cin >> gen;
         gen = sTouper(gen);
-        cout << "Blood Type : ";
+        cout << " Blood Type"<<endl<<" > ";
         cin >> bt;
         bt = sTouper(bt);
-        cout << "Date of birth (dd mm yyyy): " ;
+        cout << " Date of birth (dd mm yyyy)"<<endl;
           do{
-             cout << "> ";
+             cout << " > ";
               cin.clear();
               cin >> D ;
               cin.ignore();
@@ -156,23 +163,23 @@ void Personal(Personinformation *&P){
               y=StrToInt(Y);
               x = checkDate(d,m,y);
           }while(x!=1);
-        cout << "Underlying disease : ";
+        cout << " Underlying Disease"<<endl<<" > ";
         cin >> pd;
         pd = sTouper(pd);
-        cout << "Phone Number : ";
+        cout << " Phone Number"<<endl<<" > ";
         cin >> phone;
-        cout<<"Input house number : ";
+        cout<<" Input House Number"<<endl<<" > ";
         cin>>H_Num;
-        cout<<"Input province : ";
+        cout<<" Input Province"<<endl<<" > ";
         cin>>prov;
         prov = sTouper(prov);
-        cout<<"Input district : ";
+        cout<<" Input District"<<endl<<" > ";
         cin>>dis;
         dis = sTouper(dis);
-        cout<<"Input sub-distict : ";
+        cout<<" Input Sub-Distict"<<endl<<" > ";
         cin>>sub_dis;
         sub_dis = sTouper(sub_dis);
-        P=new Personinformation(name, d, m, y, phone, gen, bt, pd,H_Num,prov,dis,sub_dis);
+        P=new Personinformation(name[0],name[1], d, m, y, phone, gen, bt, pd,H_Num,prov,dis,sub_dis);
         c="N";
        }
       }
@@ -180,20 +187,23 @@ void Personal(Personinformation *&P){
          cout<<e.what()<<endl;
          cin.clear();// fflush(stdin)
         cin.ignore(100,'\n');
-        sleep(1);
+        sleep(2);
        }
      }while(c != "N");
-     cout << "Back to main menu" <<endl; sleep(2);
+     cout << " Back to Main Menu" <<endl; sleep(2);
   }
   else {
     string c;
     string chck;
     do{
     system("clear");
+    head();
     P->show_perInfo();
-    cout << "1)Edit information "<<endl;
-    cout << "2)Back to menu"<<endl;
-    cout << "> ";
+    cout<<"--------------------------------"<<endl;
+    cout<<"\t\t  >> MENU <<"<<endl<<endl;
+    cout << "\t1) Edit Information "<<endl;
+    cout << "\t2) Back to Menu"<<endl;
+    PleIn();
     try{
     cin>>c;
     if (c!="1" && c!="2")
@@ -203,31 +213,38 @@ void Personal(Personinformation *&P){
         system("clear");
       string hn,x,y,z,D,M,Y;
       int ddd,mm,yy,k;
-      cout << "Which information that u want to change"<<endl;
-      cout << "1) Name"<<endl;
-      cout << "2) Gender"<<endl;
-      cout << "3) Blood type"<<endl;
-      cout << "4) Date of birth"<<endl;
-      cout << "5) Underlying disease"<<endl;
-      cout << "6) Phone Number"<<endl;
-      cout << "7) Address"<<endl;
-      cout << "0) Exit"<<endl;
-      cout << "> ";
+      head();//Decor
+      cout << " >>Edit Personal Information <<"<<endl<<endl;
+      cout << " 1) Name"<<endl;
+      cout << " 2) Surname"<<endl;
+      cout << " 3) Gender"<<endl;
+      cout << " 4) Blood Type"<<endl;
+      cout << " 5) Date of Birth"<<endl;
+      cout << " 6) Underlying Disease"<<endl;
+      cout << " 7) Phone Number"<<endl;
+      cout << " 8) Address"<<endl;
+      cout << " 0) Exit"<<endl;
+      cout<<"--------------------------------"<<endl;
+      cout << " Which Information that You Want to Change?"<<endl;
+      cout << " > ";
       try{
       cin >> chck;
-      if(chck!="2"&&chck!="3"&&chck!="4"&&chck!="5"&&chck!="6"&&chck!="7"&&chck!="0"&&chck!="1")
+      if(chck!="2"&&chck!="3"&&chck!="4"&&chck!="5"&&chck!="6"&&chck!="7"&&chck!="8" &&chck!="0"&&chck!="1")
         throw inchoice;
       switch (chck[0]){
-        case '1' : {cout << "Change Name to "; cin>>x; 
+        case '1' : {cout << " Change Name to -->"; cin>>x; 
                   x = sTouper(x);P->changeName(x) ;}
                   break;
-        case '2' : {cout << "Change Gender to "; cin>>x; 
+        case '2' : {cout << " Change Surname to -->"; cin>>x; 
+                  x = sTouper(x);P->changeSurName(x) ;}
+                  break;
+        case '3' : {cout << " Change Gender to -->"; cin>>x; 
                   x = sTouper(x);P->changeGender(x) ;}
                   break;
-        case '3' : {cout << "Change Blood type to "; cin>>x; 
+        case '4' : {cout << " Change Blood type to -->"; cin>>x; 
                   x = sTouper(x);P->changeBloodtype(x) ;}
                   break;
-        case '4' :  {cout << "Change Date of birth to "<<endl;
+        case '5' :  {cout << " Change Date of birth to -->"<<endl;
                      do{
                           cout << "> ";
                           cin.clear();
@@ -243,23 +260,23 @@ void Personal(Personinformation *&P){
           }while(k != 1 );
                   P->changeDoB(ddd,mm,yy) ;}
                   break;
-        case '5' : {cout << "Change Underlying disease to "; cin>>x; 
+        case '6' : {cout << " Change Underlying disease to -->"; cin>>x; 
                   x = sTouper(x);P->changeUdis(x) ;}
                   break;
-        case '6' : {cout << "Change Phone Number to "; cin>>x; 
+        case '7' : {cout << " Change Phone Number to -->"; cin>>x; 
                   x = sTouper(x);P->changePhoneNo(x) ;}
                   break;
-        case '7' : {
-                  cout<<"Input house number : ";
+        case '8' : {
+                  cout<<" Input house number : ";
                   cin>>hn;
                   hn = sTouper(hn);
-                  cout<<"Input province : ";
+                  cout<<" Input province : ";
                    cin>>z;
                   z = sTouper(z);
-                  cout<<"Input district : ";
+                  cout<<" Input district : ";
                   cin>>y;
                   y = sTouper(y);
-                  cout<<"Input sub-distict : ";
+                  cout<<" Input sub-distict : ";
                   cin>>x;
                   x = sTouper(x);
                   P->changeAddress(hn,x,y,z) ;}
@@ -294,21 +311,46 @@ int Add_Place(LL *A){
   string check1,check2,check3,check4;
   int ch=0;
   system("clear");
-  
-  cout<<"Timeline Tracker"<<endl<<endl;
-  user_input("Input house number : " ,&H_Num);
-  user_input("Input store name : " ,&s_name);
-  user_input("Input province : " ,&prov);
-  user_input("Input district : " ,&dis);
-  user_input("Input sub-distict : " ,&sub_dis);
-  user_input("Input note : " ,&note);
+  head();//Decor
+  cout<<endl<<"    >> Place Information <<"<<endl<<endl;
+  user_input("Input house number" ,&H_Num);
+  user_input("Input store name" ,&s_name);
+  user_input("Input province" ,&prov);
+  user_input("Input district" ,&dis);
+  user_input("Input sub-distict" ,&sub_dis);
+  user_input("Input note" ,&note);
+  cout<<"--------------------------------"<<endl;
+  string exit;
+  cout<<endl<<" Is the Place Information Correct? (Y/N)"<<endl;
+  do{
+  cout<<" > ";
+  cin>>exit;
+  exit=sTouper(exit);
+  try{
+    if (exit!="Y" && exit!="N") throw inchoice;
+    switch(exit[0]){
+      case 'Y':{ch=1;}break;
+      case 'N':{ch=1;
+      cout<<" Back to Menu...";
+      return 1;}break;
+    }
+  }
+  catch(exception& e){
+      cout<<e.what()<<endl;
+      ch=0;
+    }
+    cin.clear();
+    cin.ignore(100,'\n');
+  }while(ch==0);
+  cout<<"--------------------------------"<<endl;
 
   time_t now = time(0);
   tm *ltm = localtime(&now);
-  cout<<endl<<"#Check in"<<endl;
-  cout<<"Date is "<<setfill('0')<<setw(2)<<ltm->tm_mday<<"/"<<setfill('0')<<setw(2)<<1 + ltm->tm_mon<<"/"<<setfill('0')<<setw(2)<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
+  changeTimezone(ltm);
+  cout<<endl<<" #Check In"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<ltm->tm_mday<<"/"<<setfill('0')<<setw(2)<<1 + ltm->tm_mon<<"/"<<setfill('0')<<setw(2)<<1900 + ltm->tm_year<<" (Y/N)"<<endl;
 	do{
-  cout<<"> ";
+  cout<<" > ";
   cin>>check1;
   check1=sTouper(check1);
   try{
@@ -322,10 +364,10 @@ int Add_Place(LL *A){
       case 'N':{ch=1;
         int x=0;
         string d,m,y;
-        cout<<endl<<"Input date (dd mm yyyy): ";
+        cout<<" Input date (dd mm yyyy)"<<endl;
           do{
               cin.clear();
-
+              cout<<" > ";
               cin >> d ;
               cin.ignore();
               cin>> m;
@@ -348,26 +390,26 @@ int Add_Place(LL *A){
     cin.ignore(100,'\n');
   }while(ch==0);
   
-  cout <<endl<< "Time is "<<setfill('0')<<setw(2)<<7+ltm->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm->tm_min << ":"<<setfill('0')<<setw(2)<<ltm->tm_sec <<" (Y/N)"<<endl;
+  cout << " Time : "<<setfill('0')<<setw(2)<<ltm->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm->tm_min << ":"<<setfill('0')<<setw(2)<<ltm->tm_sec <<" (Y/N)"<<endl;
   do{
-  cout<<"> ";
+  cout<<" > ";
   cin>>check2;
   check2=sTouper(check2);
   try{
     if (check2!="Y" && check2!="N") throw inchoice;
     switch(check2[0]){
       case 'Y':{ch=1;
-        ti[0]=7+ltm->tm_hour;
+        ti[0]=ltm->tm_hour;
         ti[1]=ltm->tm_min;
         ti[2]=ltm->tm_sec;
       };break;
       case 'N':{ch=1;
       string H,M,S;
       int x=0;
-      cout<<endl<<"Input time (hh:mm:ss): ";
+      cout<<" Input time (hh:mm:ss)"<<endl;
       do{
       cin.clear();
-      
+      cout<<" > ";
       cin>>H;
       cin.ignore();
       cin>>M;
@@ -393,26 +435,45 @@ int Add_Place(LL *A){
 
   //show INFO
   system("clear");
-  cout<<"House number : "<<H_Num<<endl;
-  cout<<"Store name : "<<s_name<<endl;
-  cout<<"Province : "<<prov<<endl;
-  cout<<"District : "<<dis<<endl;
-  cout<<"Sub-district : "<<sub_dis<<endl;  
-  cout<<"note : "<<note<<endl; 
-  cout<<"Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
-  cout<<"Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl; 
-  cout<<"*** Checked in ***"<<endl<<endl;
+  head();//Decor
+  cout<<endl<<"    >> Place Information <<"<<endl<<endl;
+  cout<<" House Number : "<<H_Num<<endl;
+  cout<<" Store Name : "<<s_name<<endl;
+  cout<<" Province : "<<prov<<endl;
+  cout<<" District : "<<dis<<endl;
+  cout<<" Sub-District : "<<sub_dis<<endl;  
+  cout<<" Note : "<<note<<endl; 
+  cout<<"--------------------------------"<<endl;
+  cout<<endl<<" #Checked In"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<"--------------------------------"<<endl; 
   sleep(2);
 
-  cout << "Press Enter to Check out...";
+  cout << " Press Enter to Check out...";
   cin.get();
 
   time_t now1 = time(0);
   tm *ltm1 = localtime(&now1);
-  cout<<endl<<"#Check out"<<endl;
-  cout<<"Date is "<<setfill('0')<<setw(2)<<D<<"/"<<setfill('0')<<setw(2)<<M<<"/"<<setfill('0')<<setw(2)<<Y<<" (Y/N)"<<endl;
+  changeTimezone(ltm1);
+  system("clear");
+  head();//Decor
+  cout<<endl<<"    >> Place Information <<"<<endl<<endl;
+  cout<<" House Number : "<<H_Num<<endl;
+  cout<<" Store Name : "<<s_name<<endl;
+  cout<<" Province : "<<prov<<endl;
+  cout<<" District : "<<dis<<endl;
+  cout<<" Sub-District : "<<sub_dis<<endl;  
+  cout<<" Note : "<<note<<endl; 
+  cout<<"--------------------------------"<<endl;
+  cout<<endl<<" #Checked In"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<"--------------------------------"<<endl; 
+  cout<<endl<<" #Check Out"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<"/"<<setfill('0')<<setw(2)<<M<<"/"<<setfill('0')<<setw(2)<<Y<<" (Y/N)"<<endl;
 	do{
-  cout<<"> ";
+  cout<<" > ";
   cin>>check3;
   check3=sTouper(check3);
   try{
@@ -426,10 +487,10 @@ int Add_Place(LL *A){
       case 'N':{ch=1;
         int x=0;
         string d,m,y;
-        cout<<endl<<"Input date (dd mm yyyy): ";
+        cout<<" Input date (dd mm yyyy)"<<endl;
           do{
               cin.clear();
-
+              cout<<" > ";
               cin >> d ;
               cin.ignore();
               cin>> m;
@@ -452,26 +513,26 @@ int Add_Place(LL *A){
     cin.ignore(100,'\n');
   }while(ch==0);
 
-  cout << "Time out is "<<setfill('0')<<setw(2)<<7+ltm1->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm1->tm_min << ":"<<setfill('0')<<setw(2)<<ltm1->tm_sec <<" (Y/N)"<<endl;
+  cout << " Time out is "<<setfill('0')<<setw(2)<<ltm1->tm_hour<< ":" << setfill('0')<<setw(2)<<ltm1->tm_min << ":"<<setfill('0')<<setw(2)<<ltm1->tm_sec <<" (Y/N)"<<endl;
   do{
-  cout<<"> ";
+  cout<<" > ";
   cin>>check4;
   check4=sTouper(check4);
   try{
   if (check4!="Y" && check4!="N") throw inchoice;
     switch(check4[0]){
       case 'Y':{ch=1;
-        to[0]=7+ltm1->tm_hour;
+        to[0]=ltm1->tm_hour;
         to[1]=ltm1->tm_min;
         to[2]=ltm1->tm_sec;
       };break;
       case 'N':{ch=1;
       string H,M,S;
       int x=0;
-      cout<<"Input time (hh:mm:ss): ";
+      cout<<" Input time (hh:mm:ss)"<<endl;
       do{
       cin.clear();
-
+      cout<<" > ";
       cin>>H;
       cin.ignore();
       cin>>M;
@@ -496,13 +557,29 @@ int Add_Place(LL *A){
 
   t=new timeline(ti[0],ti[1],ti[2],to[0],to[1],to[2],D,M,Y,Do,Mo,Yo,s_name,note,H_Num,prov,dis,sub_dis);
   A->add_node(t);
+  system("clear");
+  head();//Decor
+  cout<<endl<<"    >> Place Information <<"<<endl<<endl;
+  cout<<" House Number : "<<H_Num<<endl;
+  cout<<" Store Name : "<<s_name<<endl;
+  cout<<" Province : "<<prov<<endl;
+  cout<<" District : "<<dis<<endl;
+  cout<<" Sub-District : "<<sub_dis<<endl;  
+  cout<<" Note : "<<note<<endl; 
+  cout<<"--------------------------------"<<endl;
+  cout<<endl<<" #Checked In"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<"--------------------------------"<<endl; 
+  cout<<endl<<" #Checked Out"<<endl<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<Do<<'/'<<setfill('0')<<setw(2)<<Mo<<'/'<<Yo<<endl; 
+  cout<<" Time : "<<setfill('0')<<setw(2)<<to[0]<<':'<<setfill('0')<<setw(2)<<to[1]<<':'<<to[2]<<endl<<endl;
+  cout<<"--------------------------------"<<endl;
 
   cin.clear();
-  //cin.ignore(10000,'\n');
-  cout<<"*** Checked out ***"<<endl;
   sleep(2);
-  cout << "Press Enter to back to menu...";
-  cin.ignore();
+  cout <<endl<< "Press Enter to back to menu...";
+  cin.ignore(10000,'\n');
 return 1;
 }
 
@@ -546,7 +623,7 @@ int checkLeapYear(int year){
 int checkTime(int h ,int m,int s){
   int x;
   try{
-        if (h>=24 || h<0 ||m>=60 || m<0 ||s>=60 || s<0 ) throw indate;
+        if (h>=24 || h<0 ||m>=60 || m<0 ||s>=60 || s<0 ) throw intime;
     x=1;
   }
   catch(exception& e){
@@ -557,6 +634,38 @@ int checkTime(int h ,int m,int s){
       x=0;
   }
   return (x);
+}
+
+void changeTimezone(tm *T){
+  int ly;
+  ly = checkLeapYear(T->tm_year);
+  if (T->tm_hour >= 17){
+    T->tm_hour = (T->tm_hour + 7)-24;
+    T->tm_mday = T->tm_mday+1;
+      if (T->tm_mon==2 && T->tm_mday > 29 && ly == 1){ //ถ้าเป็นเดือน 2 ที่มี 29 วัน 
+          T->tm_mday = T->tm_mday-29;
+          T->tm_mon = T->tm_mon+1;
+      }
+      else if (T->tm_mon==2 && T->tm_mday > 28 && ly==0){ //ถ้าเป็นเดือน 2 ที่มี 28 วัน 
+          T->tm_mday = T->tm_mday-28;
+          T->tm_mon = T->tm_mon+1;
+      }
+      else if (T->tm_mday >= 31){ //ถ้าวันที่ > 30 และเป็นเดือนที่ลงท้ายด้วย ยน(30 วัน)
+          if(T->tm_mon==4 ||T->tm_mon==6 ||T->tm_mon==9 ||T->tm_mon==11 ) {
+             T->tm_mday = T->tm_mday-30;
+             T->tm_mon = T->tm_mon+1;
+          }
+      else if (T->tm_mday > 31){ //ถ้าวันที่ > 31 และเป็นเดือนที่ลงท้ายด้วย คม(31 วัน)
+          if(T->tm_mon==12){//ถ้าเป็นเดือน ธันวาคม(สิ้นปี)
+            T->tm_year = T->tm_year +1;
+            T->tm_mon = (T->tm_mon+1)-12;
+            }
+          else{
+            T->tm_mon = T->tm_mon+1;
+          }
+      }
+     }
+  }
 }
 
 // Timeline Tracker Project | Mahidol Unibersity | EGCO 112 | 23 / 4 / 2021 - 19 / 5 / 2021

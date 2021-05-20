@@ -4,12 +4,9 @@ using namespace std;
 
 
 NODE::NODE(){
-      //data=x;
       next=NULL;
-      //cout<<"adding"<<endl;
 }
-NODE:: ~NODE(){
-      
+NODE:: ~NODE(){ 
 }
 
 NODE* NODE::move_next(){

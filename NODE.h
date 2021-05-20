@@ -1,5 +1,4 @@
 class NODE{
-      //string x;
       NODE* next;
 public:
         NODE();
@@ -21,13 +20,10 @@ class TotalStoreN : public NODE {
     string storeList;
     TotalStoreN(string x){
       storeList = x;
-      //cout <<"Adding storeList " << x <<endl;
     }
     ~TotalStoreN(){
-      //cout << "Destruter"<<endl;
     }
     void show_node(){
-      //cout << "CCC " << storeList<<endl;
     }
     string returnStname(){return storeList;}
 };

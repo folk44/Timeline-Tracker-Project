@@ -31,7 +31,10 @@ int LLcheckDate(int d,int m,int y){
     else if (d==31){
       if(m==4 ||m==6 ||m==9 ||m==11 ) x=0;
     }
-    else x=1; 
+    else x=1;
+    if (x==0){
+      cout << "\n Invalid Date!!\n **************\n Please Input Again..."<<endl;
+    } 
   return (x);
 }
 
@@ -56,12 +59,13 @@ void LL::show_all(){
      NODE* t=hol;
      if (t!=NULL){
      int i;
+     cout<<endl;
      for(i=0;i<size;i++){
              t->show_node();
 	      t=t->move_next();    
       }
      }
-     else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
+     else  cout <<endl<< " Timeline Is Empty!!\n *******************\n Please Input Timeline First..." <<endl;
   }
   
 
@@ -159,10 +163,10 @@ void LL::search(){
   if(t!=NULL){
   int i=0,d,m,y,x=0,c=0;
   string D,M,Y;
-  cout<<"Enter DD MM YYYY : "<<endl;
+  cout<<" Input Date (dd mm yyyy)"<<endl;
     do{
         cin.clear();
-        
+        cout<<" > ";
         cin >> D ;
         cin.ignore();
         cin>> M;
@@ -173,20 +177,20 @@ void LL::search(){
         y=StrToIntt(Y);
         x = LLcheckDate(d,m,y);
           }while(x!=1);
-          
+        cout<<endl;
   while(t!=NULL){
     if(d==t->returnD() && m==t->returnM() && y==t->returnY() ){
       i++;
-      cout<<i<<")";
+      cout<<" "<<i<<")";
       t->show_node();
       c=1;
     }
     t=t->move_next();
   }
   if(c==0){
-    cout <<setfill('0')<<setw(2)<<d << "/"<<setfill('0')<<setw(2)<< m << "/"<<setfill('0')<<setw(2)<< y <<" have no Timeline"<<endl;
+    cout <<" --> "<<setfill('0')<<setw(2)<<d << "/"<<setfill('0')<<setw(2)<< m << "/"<<setfill('0')<<setw(2)<< y <<" no Timeline"<<endl;
   }
-  }else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
+  }else  cout << " Timeline Is Empty!!\n *******************\n Please Input Timeline First..." <<endl;
   
  }
 
@@ -197,6 +201,7 @@ void LL::searchStname(){
   NODE * check=hol;
   int i,j,d,n=1,c;
   string st,temp,D;
+  cout<<endl;
   if (t!=NULL){
   for(i=0;i<size;i++){
     check=hol;
@@ -211,7 +216,7 @@ void LL::searchStname(){
         }
       }
     if(c==0){
-        cout<<n<<") ";
+        cout<<" "<<n<<") ";
         t->show_St();
         temp=t->returnStname();
         s=new TotalStoreN(temp);
@@ -220,14 +225,15 @@ void LL::searchStname(){
     }
 	    t=t->move_next();  
      }
-  cout<<"Choose & Input number"<<endl;
+  cout<<"--------------------------------"<<endl;
+  cout<<endl<<" Choose a Store & Input number..."<<endl;
   do{
     c=0;
-  cout<<"> ";
+  cout<<" > ";
   cin>>D;
     d=StrToIntt(D);
     if (d > 0 && d <n ) c=1;
-    else cout << "Invalid choice!! \nPlease input again..." <<endl;
+    else cout << "\n Invalid Choice!!\n ****************\n Please Input Again..." <<endl;
   }while (c==0);
   d = S.size-d;
   /*st=t->returnStname();
@@ -250,7 +256,7 @@ void LL::searchStname(){
     }
     t=t->move_next();
   }
-  }else  cout << "Timeline is empty!! \nPlease input timeline first..." <<endl;
+  }else  cout << " Timeline Is Empty!!\n *******************\n Please Input Timeline First..." <<endl;
 }
 void LL::rw_node(){
     NODE *t=NULL,*pre=hol,*pos=NULL;

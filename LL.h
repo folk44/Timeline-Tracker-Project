@@ -1,4 +1,3 @@
-
 class LL{
       NODE* hol;
       int size;
@@ -12,6 +11,5 @@ public:
        NODE* HOL(){return hol;}
        ~LL();
        LL();
-      
 };
 
