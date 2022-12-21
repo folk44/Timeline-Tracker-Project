@@ -406,7 +406,7 @@ int Add_Place(LL *A){
       case 'N':{ch=1;
       string H,M,S;
       int x=0;
-      cout<<" Input time (hh:mm:ss)"<<endl;
+      cout<<" Input time (hh mm ss)"<<endl;
       do{
       cin.clear();
       cout<<" > ";
@@ -446,7 +446,7 @@ int Add_Place(LL *A){
   cout<<"--------------------------------"<<endl;
   cout<<endl<<" #Checked In"<<endl<<endl;
   cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
-  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<setfill('0')<<setw(2)<<ti[2]<<endl<<endl;
   cout<<"--------------------------------"<<endl; 
   sleep(2);
 
@@ -468,10 +468,10 @@ int Add_Place(LL *A){
   cout<<"--------------------------------"<<endl;
   cout<<endl<<" #Checked In"<<endl<<endl;
   cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
-  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<setfill('0')<<setw(2)<<ti[2]<<endl<<endl;
   cout<<"--------------------------------"<<endl; 
   cout<<endl<<" #Check Out"<<endl<<endl;
-  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<"/"<<setfill('0')<<setw(2)<<M<<"/"<<setfill('0')<<setw(2)<<Y<<" (Y/N)"<<endl;
+  cout<<" Date : "<<setfill('0')<<setw(2)<<D<<"/"<<setfill('0')<<setw(2)<<M<<"/"<<Y<<" (Y/N)"<<endl;
 	do{
   cout<<" > ";
   cin>>check3;
@@ -529,7 +529,7 @@ int Add_Place(LL *A){
       case 'N':{ch=1;
       string H,M,S;
       int x=0;
-      cout<<" Input time (hh:mm:ss)"<<endl;
+      cout<<" Input time (hh mm ss)"<<endl;
       do{
       cin.clear();
       cout<<" > ";
@@ -569,11 +569,11 @@ int Add_Place(LL *A){
   cout<<"--------------------------------"<<endl;
   cout<<endl<<" #Checked In"<<endl<<endl;
   cout<<" Date : "<<setfill('0')<<setw(2)<<D<<'/'<<setfill('0')<<setw(2)<<M<<'/'<<Y<<endl; 
-  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<ti[2]<<endl<<endl;
+  cout<<" Time : "<<setfill('0')<<setw(2)<<ti[0]<<':'<<setfill('0')<<setw(2)<<ti[1]<<':'<<setfill('0')<<setw(2)<<ti[2]<<endl<<endl;
   cout<<"--------------------------------"<<endl; 
   cout<<endl<<" #Checked Out"<<endl<<endl;
   cout<<" Date : "<<setfill('0')<<setw(2)<<Do<<'/'<<setfill('0')<<setw(2)<<Mo<<'/'<<Yo<<endl; 
-  cout<<" Time : "<<setfill('0')<<setw(2)<<to[0]<<':'<<setfill('0')<<setw(2)<<to[1]<<':'<<to[2]<<endl<<endl;
+  cout<<" Time : "<<setfill('0')<<setw(2)<<to[0]<<':'<<setfill('0')<<setw(2)<<to[1]<<':'<<setfill('0')<<setw(2)<<to[2]<<endl<<endl;
   cout<<"--------------------------------"<<endl;
 
   cin.clear();
@@ -665,6 +665,9 @@ void changeTimezone(tm *T){
           }
       }
      }
+  }
+  else{
+    T->tm_hour = T->tm_hour + 7;
   }
 }
 

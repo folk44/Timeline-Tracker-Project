@@ -236,15 +236,6 @@ void LL::searchStname(){
     else cout << "\n Invalid Choice!!\n ****************\n Please Input Again..." <<endl;
   }while (c==0);
   d = S.size-d;
-  /*st=t->returnStname();
-  n=1;
-  while(n<d){
-    if(st!=t->move_next()->returnStname()){
-      n++;
-      st=t->move_next()->returnStname();
-    }
-    else t=t->move_next();
-  }*/
   t=hol;
   s=S.hol;
   for (i=0; i<d ;i++ ) s=s->move_next();
